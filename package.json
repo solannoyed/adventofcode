@@ -1,0 +1,15 @@
+{
+	"name": "adventofcode",
+	"version": "2023.01",
+	"private": true,
+	"homepage": "https://adventofcode.com",
+	"repository": "github:solannoyed/adventofcode",
+	"type": "module",
+	"devDependencies": {
+		"@tsconfig/bun": "^1.0.1",
+		"bun-types": "latest"
+	},
+	"peerDependencies": {
+		"typescript": "^5.0.0"
+	}
+}
