@@ -5,5 +5,8 @@
 		"downlevelIteration": true,
 		"allowSyntheticDefaultImports": true,
 		"allowJs": true,
+		"paths": {
+			"lib/*": ["./lib/*"]
+		}
 	}
 }
