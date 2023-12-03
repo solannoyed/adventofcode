@@ -1,3 +1,6 @@
+import { DIRECTIONS } from 'lib/directions';
+import { isDigit } from 'lib/digits';
+
 export default function (input: string) {
 	let grid = input
 		.trim()
@@ -50,19 +53,4 @@ export default function (input: string) {
 		}
 	}
 	return result;
-}
-
-const DIRECTIONS = [
-	{ x: -1, y: -1 },
-	{ x: 0, y: -1 },
-	{ x: 1, y: -1 },
-	{ x: 1, y: 0 },
-	{ x: 1, y: 1 },
-	{ x: 0, y: 1 },
-	{ x: -1, y: 1 },
-	{ x: -1, y: 0 }
-];
-
-function isDigit(char: string) {
-	return char.length == 1 && char >= '0' && char <= '9';
 }
