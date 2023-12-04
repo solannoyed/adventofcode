@@ -3,3 +3,4 @@ node_modules
 
 # Ignore the Advent of Code samples/inputs
 input.*.txt
+input.txt
