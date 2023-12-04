@@ -1,17 +1,23 @@
 import { describe, expect, test } from 'bun:test';
 import process from './part2';
 
-import sample from './sample.txt';
-import input from './input.txt';
+const SAMPLE_RESULT = 467835;
 
-describe('2023/03 Part 2', () => {
-	test('sample', () => {
-		expect(process(sample)).toBe(467835);
+describe('2023/03 Part 2', async () => {
+	test('sample', async () => {
+		const input = Bun.file(`${import.meta.dir}/input.sample.txt`);
+		expect(await input.exists()).toBeTrue();
+		expect(process(await input.text())).toBe(SAMPLE_RESULT);
 	});
-	test('input', (done) => {
-		const result = process(input);
+	test('input (solannoyed)', async () => {
+		const input = Bun.file(`${import.meta.dir}/input.solannoyed.txt`);
+		expect(await input.exists()).toBeTrue();
+		expect(process(await input.text())).toMatchSnapshot();
+	});
+	const input = Bun.file(`${import.meta.dir}/input.txt`);
+	test.if(await input.exists())('input', async () => {
+		const result = process(await input.text());
 		expect(result).toMatchSnapshot();
-		done();
 		console.log('Result:', result);
 	});
 });
