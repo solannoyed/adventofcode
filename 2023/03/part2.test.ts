@@ -16,8 +16,6 @@ describe('2023/03 Part 2', async () => {
 	});
 	const input = Bun.file(`${import.meta.dir}/input.txt`);
 	test.if(await input.exists())('input', async () => {
-		const result = process(await input.text());
-		expect(result).toMatchSnapshot();
-		console.log('Result:', result);
+		console.log('Result:', process(await input.text()));
 	});
 });

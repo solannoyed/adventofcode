@@ -4,7 +4,7 @@
 
 The 2023 solutions are written in TypeScript and [Bun](https://bun.sh/) is used to run and test. The 2022 solutions were written in JavaScript and run with [Node.js](https://nodejs.org/).
 
-I have included my inputs and snapshots of the answers. You will need to replace the content of each `input.txt` with your own puzzle input provided on the website and update the snapshots to pass all tests.
+I have included my inputs and snapshots of the answers. You will need to save your own puzzle input provided on the website to `input.txt` and run the tests. and the results will be logged to the console.
 
 For example:
 
