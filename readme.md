@@ -2,7 +2,7 @@
 
 [Advent of Code](https://adventofcode.com) is an Advent Calendar of small programming puzzles.
 
-The solutions are written in TypeScript and use [Bun](https://bun.sh/) to run and test the solutions.
+The 2023 solutions are written in TypeScript and [Bun](https://bun.sh/) is used to run and test. The 2022 solutions were written in JavaScript and run with [Node.js](https://nodejs.org/).
 
 I have included my inputs and snapshots of the answers. You will need to replace the content of each `input.txt` with your own puzzle input provided on the website and update the snapshots to pass all tests.
 
