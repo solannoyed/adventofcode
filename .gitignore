@@ -6,4 +6,7 @@ node_modules
 .env.*
 !.env.example
 
+# Ignore the Advent of Code samples/inputs
+input.*.txt
 input.txt
+!input.custom.txt
