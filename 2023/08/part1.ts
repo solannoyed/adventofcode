@@ -6,6 +6,8 @@ export default function (input: string) {
 		map.set(match[1], { left: match[2], right: match[3] });
 	});
 
+	if (!map.has('AAA')) return -1; // sample 3 is not compatible with part 1
+	
 	const location = { node: 'AAA', instruction: 0 };
 	while (location.node != 'ZZZ') {
 		const current = map.get(location.node)!;

@@ -4,4 +4,6 @@ exports[`2023/08 Part 1 input (sample) 1`] = `2`;
 
 exports[`2023/08 Part 1 input (sample2) 1`] = `6`;
 
+exports[`2023/08 Part 1 input (sample3) 1`] = `-1`;
+
 exports[`2023/08 Part 1 input (5bjllhokh1lpn) 1`] = `11911`;
