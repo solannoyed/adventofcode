@@ -10,3 +10,7 @@ node_modules
 input.*.txt
 input.txt
 !input.custom.txt
+
+# Ignore the test files
+part1.test.ts
+part2.test.ts
