@@ -17,10 +17,15 @@ export default function (input: string) {
 	return result;
 }
 
+/**
+ * Calculates the margin using the quadratic formula
+ * ```
+ * y = distance - (time - x) * x
+ * a = -1, b = time, c = -distance
+ * ```
+ * @returns count of integer `x` values where `y > 0`
+ */
 export function getMargin(time: number, distance: number) {
-	let start = 1;
-	while (start < time && (time - start) * start <= distance) start++;
-	let end = time - 1;
-	while (end >= start && (time - end) * end <= distance) end--;
-	return 1 + end - start;
+	const root = (time ** 2 - 4 * distance) ** 0.5;
+	return Math.ceil((time + root) / 2) - Math.floor((time - root) / 2) - 1;
 }
