@@ -1,0 +1,8 @@
+{
+	"files": [
+		{ "source": "solution.ts", "destination": "part1.ts" },
+		{ "source": "solution.test.ts", "destination": "part1.test.ts" },
+		{ "source": "solution.ts", "destination": "part2.ts" },
+		{ "source": "solution.test.ts", "destination": "part2.test.ts" }
+	]
+}
