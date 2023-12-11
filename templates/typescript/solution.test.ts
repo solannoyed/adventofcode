@@ -8,7 +8,7 @@ describe(`${year}/${day} Part ${part}`, async () => {
 	const files = await readdir(import.meta.dir);
 	const hashes: string[] = [];
 	for (const file of files) {
-		const match = file.match(/input\.(.*)\.txt/i);
+		const match = file.match(/^input\.(.*)\.txt$/i);
 		if (match == null) continue;
 		const [_, info] = match!;
 
