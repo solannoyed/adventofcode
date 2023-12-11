@@ -1,0 +1,5 @@
+// Bun Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`2023/11 Part 2 input (sample): rate=10 1`] = `1030`;
+
+exports[`2023/11 Part 2 input (sample): rate=100 1`] = `8410`;
