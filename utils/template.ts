@@ -7,7 +7,6 @@
  * @example `bin utils/template.ts 2015/01 2015/02`
  */
 
-import { mkdir } from 'node:fs/promises';
 import config from '../templates/typescript/config.json';
 
 // TODO: should this be moved elsewhere?
@@ -48,7 +47,6 @@ if (dates.length == 0) {
 for (const date of dates) {
 	console.info('Scaffolding template', date.path);
 
-	await mkdir(date.path, { recursive: true });
 	for (const file of config.files) {
 		const source = Bun.file(`templates/typescript/${file.source}`);
 		const destination = Bun.file(`${date.path}/${file.destination}`);
