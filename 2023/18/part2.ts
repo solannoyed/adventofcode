@@ -16,30 +16,25 @@ export default function (input: string) {
 }
 
 function getArea(plan: { direction: number; length: number }[]) {
-	const perimeter = plan.reduce((accumulator, step) => accumulator + step.length, 0);
-
-	// turn the directions into actual points
 	let current = { x: 0, y: 0 };
-	const points = [current];
+	let area = 0;
+	let perimeter = 0;
+
 	for (const { direction, length } of plan) {
 		const next = {
 			x: current.x + CARDINALS[direction].x * length,
 			y: current.y + CARDINALS[direction].y * length
 		};
-		points.push(next);
+		// calculate the area with shoelace formula
+		// inputs are clockwise loops which give a negative area
+		// take the negative (`b - a` instead of `a - b`) rather than adding `Math.abs(area)`
+		area += current.x * next.y - next.x * current.y;
+		perimeter += length;
 		current = next;
 	}
 
-	// calculate the area with shoelace formula
-	let area = 0;
-	for (let i = 0; i < points.length - 1; i++) {
-		// examples are clockwise loops which give a negative area
-		// take the negative `b - a` instead of `a - b`
-		area += points[i].x * points[i + 1].y - points[i + 1].x * points[i].y;
-	}
-	area /= 2;
-
-	// 1. half the perimeter is inside the area
-	// 2. there are 4 extra quarters at the outer corners
-	return area + perimeter / 2 + 1;
+	// 1. `area` (above) is actually `2 * area`
+	// 2. half the perimeter is inside `area`
+	// 3. there are 4 extra quarters at the outer corners
+	return area / 2 + perimeter / 2 + 1;
 }
