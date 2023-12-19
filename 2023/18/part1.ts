@@ -66,7 +66,3 @@ function getCardinalDirection(direction: string) {
 			return 3;
 	}
 }
-
-function printGrid(grid: boolean[][]) {
-	console.log(grid.map((row) => row.map((dug) => (dug ? '#' : '.')).join('')).join('\n'));
-}
