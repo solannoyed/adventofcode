@@ -76,3 +76,4 @@ bun test --coverage # Run all the tests and show the test coverage
 |  22 | 01:23:54 |      1993 | 02:30:24 |     2431 |
 |  23 |     >24h |     17140 |     >24h |    14186 |
 |  24 | 00:39:36 |       848 |     >24h |    11652 |
+|  25 |     >24h |     12603 |     >24h |    10315 |
