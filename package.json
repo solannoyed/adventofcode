@@ -7,7 +7,7 @@
 	"type": "module",
 	"devDependencies": {
 		"@tsconfig/bun": "^1.0.1",
-		"bun-types": "latest"
+		"@types/bun": "^1.0.0"
 	},
 	"peerDependencies": {
 		"typescript": "^5.0.0"

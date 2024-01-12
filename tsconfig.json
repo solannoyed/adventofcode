@@ -1,10 +1,22 @@
 {
 	"extends": "@tsconfig/bun/tsconfig.json",
 	"compilerOptions": {
-		"composite": true,
-		"downlevelIteration": true,
-		"allowSyntheticDefaultImports": true,
+		// Enable features
 		"allowJs": true,
+
+		// Bundler mode
+		"verbatimModuleSyntax": true,
+
+		// Best practices
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noFallthroughCasesInSwitch": true,
+
+		// Stricter flags
+		"useUnknownInCatchVariables": true,
+		"noPropertyAccessFromIndexSignature": true,
+
+		// Custom
 		"paths": {
 			"lib/*": ["./lib/*"]
 		}
