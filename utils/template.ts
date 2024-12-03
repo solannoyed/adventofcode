@@ -4,7 +4,7 @@
  *
  * @description Copy the TypeScript template for the desired date/s
  * @example `bun utils/template.ts 2023/01`
- * @example `bin utils/template.ts 2015/01 2015/02`
+ * @example `bun utils/template.ts 2015/01 2015/02`
  */
 
 import config from '../templates/typescript/config.json';
