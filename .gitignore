@@ -14,3 +14,13 @@ input.txt
 # Ignore the test files
 part1.test.ts
 part2.test.ts
+
+# Devenv
+.devenv*
+devenv.local.nix
+
+# direnv
+.direnv
+
+# pre-commit
+.pre-commit-config.yaml
