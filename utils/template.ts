@@ -49,16 +49,18 @@ for (const date of dates) {
 
 	for (const file of config.files) {
 		const source = Bun.file(`templates/typescript/${file.source}`);
-		const destination = Bun.file(`${date.path}/${file.destination}`);
-		// using `.exists()` on `destination` causes an empty file to be written with `Bun.write(destination, source)`. Possibly a bug in Bun when copying two `BunFile`s
-		if (source.lastModified < 0) {
+		const destinationPath = `${date.path}/${file.destination}`;
+		const destination = Bun.file(destinationPath);
+		if (!(await source.exists())) {
 			console.warn('- File missing:', source.name, '(skipping)');
 			continue;
-		} else if (destination.lastModified > 0) {
+		} else if (await destination.exists()) {
 			console.warn('- File exists:', destination.name, '(skipping)');
 			continue;
 		}
-		await Bun.write(destination, source);
+		// Using `destination.exists()` causes an empty file to be written with `Bun.write(destination, source)`,
+		// so we are using `destinationPath` instead (this is possibly a bug in Bun when copying two `BunFile`s).
+		await Bun.write(destinationPath, source);
 	}
 
 	const input = Bun.file(`${date.path}/input.txt`);
