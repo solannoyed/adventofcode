@@ -77,3 +77,8 @@ bun test --coverage # Run all the tests and show the test coverage
 |  23 |     >24h |     17140 |     >24h |    14186 |
 |  24 | 00:39:36 |       848 |     >24h |    11652 |
 |  25 |     >24h |     12603 |     >24h |    10315 |
+
+### [2024](https://adventofcode.com/2024/leaderboard/self)
+
+| Day | Time (1) |  Rank (1) | Time (2) | Rank (2) |
+|  -: |       -: |        -: |       -: |       -: |
