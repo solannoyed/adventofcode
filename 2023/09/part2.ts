@@ -6,7 +6,7 @@ export default function (input: string) {
 	for (const history of histories) {
 		for (let step = 0; step < history.length; step++) {
 			if (!history[step].some((value) => value != 0)) break;
-			let next: number[] = [];
+			const next: number[] = [];
 			for (let index = 1; index < history[step].length; index++) {
 				next.push(history[step][index] - history[step][index - 1]);
 			}
