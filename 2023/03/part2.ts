@@ -19,7 +19,7 @@ export default function (input: string) {
 		grid[location.row][location.col] = '.';
 		const parts = new Map<string, { row: number; col: number; length: number }>();
 		for (const direction of DIRECTIONS) {
-			let destination = { row: location.row + direction.x, col: location.col + direction.y };
+			const destination = { row: location.row + direction.x, col: location.col + direction.y };
 			// make sure the destination is inside the grid
 			if (
 				destination.row < 0 ||

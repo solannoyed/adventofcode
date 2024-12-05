@@ -20,7 +20,7 @@ export default function (input: string) {
 	while (queue.length > 0) {
 		const current = queue.shift()!; // make sure to do BFS
 
-		for (const distance of [1, 2, 3]) {
+		for (let distance = 1; distance < 4; distance++) {
 			current.x += CARDINALS[current.direction].x;
 			current.y += CARDINALS[current.direction].y;
 			if (!blocks[current.y] || !blocks[current.y][current.x]) break; // outside the grid

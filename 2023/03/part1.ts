@@ -21,7 +21,7 @@ export default function (input: string) {
 	for (const location of symbolLocations) {
 		grid[location.row][location.col] = '.';
 		for (const direction of DIRECTIONS) {
-			let destination = { row: location.row + direction.x, col: location.col + direction.y };
+			const destination = { row: location.row + direction.x, col: location.col + direction.y };
 			// make sure the destination is inside the grid
 			if (
 				destination.row < 0 ||
