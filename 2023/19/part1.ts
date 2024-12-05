@@ -4,7 +4,7 @@ export default function (input: string) {
 		.split('\n\n')
 		.map((group) => group.split('\n'));
 
-	const workflows: Map<string, Rule[]> = new Map();
+	const workflows = new Map<string, Rule[]>();
 	groups[0].forEach((line) => {
 		const [name, ...rest] = line.substring(0, line.length - 1).split(/[{,]/);
 		workflows.set(name, getRules(rest));
@@ -48,16 +48,14 @@ function getRules(input: string[]) {
 	});
 }
 
-type Part = {
-	[key in Category]: number;
-};
+type Part = Record<Category, number>;
 
-type Rule = {
+interface Rule {
 	category?: Category;
 	operator?: Operator;
 	value?: number;
 	destination: string; // 'R': rejected | 'A': accepted | string: name
-};
+}
 
 type Category = 'x' | 'm' | 'a' | 's';
 type Operator = '>' | '<';

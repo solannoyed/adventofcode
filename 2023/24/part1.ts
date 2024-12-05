@@ -63,16 +63,16 @@ function intersection(first: Hailstone, second: Hailstone) {
 	};
 }
 
-type Coordinate = {
+interface Coordinate {
 	x: number;
 	y: number;
 	z: number;
-};
+}
 
-type Hailstone = {
+interface Hailstone {
 	position: Coordinate;
 	velocity: Coordinate;
 	a: number;
 	b: number;
 	c: number;
-};
+}

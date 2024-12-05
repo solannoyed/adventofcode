@@ -3,7 +3,7 @@ export default function (input: string) {
 		.trim()
 		.split('\n')
 		.map((line) => {
-			const mins: { [key: string]: number } = {
+			const mins = {
 				red: 0,
 				green: 0,
 				blue: 0
@@ -14,7 +14,7 @@ export default function (input: string) {
 				.map((handfull) => handfull.split(', '));
 			for (const handfull of handfulls) {
 				for (const cubes of handfull) {
-					const [count, colour] = cubes.split(' ');
+					const [count, colour] = cubes.split(' ') as [string, keyof typeof mins];
 					mins[colour] = Math.max(mins[colour], parseInt(count));
 				}
 			}

@@ -9,11 +9,11 @@ export default function (input: string) {
 	return energisedCount({ x: 0, y: 0, direction: 1 }, grid);
 }
 
-export type Beam = {
+export interface Beam {
 	x: number;
 	y: number;
 	direction: number; // index of cardinal direction from `lib/directions`
-};
+}
 
 export type Tile = '.' | '\\' | '/' | '|' | '-';
 

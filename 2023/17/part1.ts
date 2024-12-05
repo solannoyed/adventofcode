@@ -47,9 +47,9 @@ export default function (input: string) {
 	return Math.min(...coolest.at(-1)!.at(-1)!);
 }
 
-type Crucible = {
+interface Crucible {
 	x: number; // column in the city blocks
 	y: number; // row in the city blocks
 	direction: number; // cardinal direction index
 	heat: number; // the amount of heat lost in the trip
-};
+}

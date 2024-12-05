@@ -24,7 +24,7 @@ export default function (input: string, deck = ['2', '3', '4', '5', '6', '7', '8
 }
 
 function getType(hand: number[], joker: number) {
-	let map = new Map<number, number>();
+	const map = new Map<number, number>();
 	for (const card of hand) {
 		map.set(card, (map.get(card) ?? 0) + 1);
 	}

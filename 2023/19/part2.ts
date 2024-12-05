@@ -4,7 +4,7 @@ export default function (input: string) {
 		.split('\n\n')
 		.map((group) => group.split('\n'));
 
-	const workflows: Map<string, Rule[]> = new Map();
+	const workflows = new Map<string, Rule[]>();
 	groups[0].forEach((line) => {
 		const [name, ...rest] = line.substring(0, line.length - 1).split(/[{,]/);
 		workflows.set(name, getRules(rest));
@@ -31,7 +31,7 @@ export default function (input: string) {
 	let result = 0;
 	range: while (ranges.length > 0) {
 		const current = ranges.pop()!;
-		rule: for (const rule of workflows.get(current.rule)!) {
+		for (const rule of workflows.get(current.rule)!) {
 			if (!rule.category) {
 				if (rule.destination == 'A') {
 					result += getCombinations(current);
@@ -106,22 +106,20 @@ function getCombinations(range: Range) {
 	);
 }
 
-type Range = {
+interface Range {
 	rule: string;
 	start: Part;
 	end: Part;
-};
+}
 
-type Part = {
-	[key in Category]: number;
-};
+type Part = Record<Category, number>;
 
-type Rule = {
+interface Rule {
 	category?: Category;
 	operator?: Operator;
 	value?: number;
 	destination: string; // 'R': rejected | 'A': accepted | string: name
-};
+}
 
 type Category = 'x' | 'm' | 'a' | 's';
 type Operator = '>' | '<';

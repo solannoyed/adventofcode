@@ -6,11 +6,11 @@ export default function (input: string) {
 			return line.split('   ').map((val) => parseInt(val));
 		});
 	const counts = new Map();
-	for (const [_, value] of inputs) {
+	for (const [, value] of inputs) {
 		counts.set(value, (counts.get(value) ?? 0) + 1);
 	}
 	let result = 0;
-	for (const [value, _] of inputs) {
+	for (const [value] of inputs) {
 		result += value * (counts.get(value) ?? 0);
 	}
 	return result;

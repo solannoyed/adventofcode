@@ -54,19 +54,11 @@ function replace(replacement: Lens, box: Box) {
 	}
 }
 
-type Box = {
+interface Box {
 	lenses: Lens[];
-};
+}
 
-type Lens = {
+interface Lens {
 	label: string;
 	length: number;
-};
-
-function printBoxes(boxes: Box[]) {
-	for (let box = 0; box < boxes.length; box++) {
-		for (let lens = 0; lens < boxes[box].lenses.length; lens++) {
-			console.log(boxes[box].lenses[lens].label, box, lens, boxes[box].lenses[lens].length);
-		}
-	}
 }

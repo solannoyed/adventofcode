@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'bun:test';
 import { readdir } from 'node:fs/promises';
 
-const [_, year, day, part] = import.meta.path.match(/\/(20\d{2})\/(\d{2})\/part(\d)\.test\.ts$/i)!;
+const [, year, day, part] = import.meta.path.match(/\/(20\d{2})\/(\d{2})\/part(\d)\.test\.ts$/i)!;
 const { default: process }: { default: (input: string) => number } = await import(`./part${part}`);
 
 describe(`${year}/${day} Part ${part}`, async () => {
@@ -10,7 +10,7 @@ describe(`${year}/${day} Part ${part}`, async () => {
 	for (const file of files) {
 		const match = file.match(/^input\.(.*)\.txt$/i);
 		if (match == null) continue;
-		const [_, info] = match!;
+		const [, info] = match!;
 
 		test(`input (${info})`, async () => {
 			const input = await Bun.file(`${import.meta.dir}/${file}`).text();

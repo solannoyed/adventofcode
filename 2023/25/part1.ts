@@ -49,10 +49,10 @@ export default function (input: string) {
 	return (labels.length - size) * size;
 }
 
-type Edge = {
+interface Edge {
 	first: number;
 	second: number;
-};
+}
 
 function indexOf(label: string, labels: string[]) {
 	let index = labels.indexOf(label);

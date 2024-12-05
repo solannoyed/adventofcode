@@ -159,19 +159,19 @@ function getCoefficientsXZ(s: Hailstone[], first: number, second: number): Coeff
 	};
 }
 
-type Hailstone = {
+interface Hailstone {
 	x: number;
 	y: number;
 	z: number;
 	dx: number;
 	dy: number;
 	dz: number;
-};
+}
 
-type Coefficients = {
+interface Coefficients {
 	a: number;
 	b: number;
 	c: number;
 	d: number;
 	e: number;
-};
+}

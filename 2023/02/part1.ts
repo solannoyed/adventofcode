@@ -1,6 +1,6 @@
 export default function (
 	input: string,
-	limits: { [key: string]: number } = {
+	limits = {
 		red: 12,
 		green: 13,
 		blue: 14
@@ -16,7 +16,7 @@ export default function (
 		for (const handfull of handfulls) {
 			for (const cubes of handfull) {
 				const [count, colour] = cubes.split(' ');
-				if (parseInt(count) > limits[colour]) continue line;
+				if (parseInt(count) > limits[colour as keyof typeof limits]) continue line;
 			}
 		}
 		result += parseInt(game.substring(5));

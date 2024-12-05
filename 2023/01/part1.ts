@@ -5,11 +5,11 @@ export default function (input: string) {
 		.trim()
 		.split('\n')
 		.map((line) => {
-			let first = {
+			const first = {
 				index: line.length,
 				value: 0
 			};
-			let last = {
+			const last = {
 				index: -1,
 				value: 0
 			};

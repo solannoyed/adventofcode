@@ -3,8 +3,8 @@ export default function (input: string) {
 		.trim()
 		.split('\n')
 		.map<Arrangement>((line) => {
-			let [first, second] = line.split(' ');
-			let sections = `?${first}`.repeat(5).substring(1);
+			const [first, second] = line.split(' ');
+			const sections = `?${first}`.repeat(5).substring(1);
 			const blocked: number[] = [];
 			const required: number[] = [];
 			for (let index = 0; index < sections.length; index++) {
@@ -27,7 +27,7 @@ export default function (input: string) {
 		.reduce((sum, variations) => sum + variations);
 }
 
-const memo: Map<string, number> = new Map();
+const memo = new Map<string, number>();
 function variationCount({ position, blocked, required, length, springs }: Arrangement) {
 	if (position == 0) memo.clear();
 	const hash = `${position},${springs.length}`;
@@ -89,10 +89,10 @@ function variationCount({ position, blocked, required, length, springs }: Arrang
 	return count;
 }
 
-type Arrangement = {
+interface Arrangement {
 	position: number;
 	blocked: number[];
 	required: number[];
 	length: number;
 	springs: number[];
-};
+}

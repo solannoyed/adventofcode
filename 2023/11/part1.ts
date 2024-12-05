@@ -1,11 +1,11 @@
 export default function (input: string, rate = 2) {
-	let universe = input
+	const universe = input
 		.trim()
 		.split('\n')
 		.map((line) => line.split(''));
 
-	let galaxies: { x: number; y: number }[] = [];
-	let emptyy: number[] = [];
+	const galaxies: { x: number; y: number }[] = [];
+	const emptyy: number[] = [];
 	for (let y = 0; y < universe.length; y++) {
 		let found = false;
 		for (let x = 0; x < universe[y].length; x++) {
@@ -19,7 +19,7 @@ export default function (input: string, rate = 2) {
 		}
 	}
 
-	let emptyx: number[] = [];
+	const emptyx: number[] = [];
 	for (let x = 0; x < universe[0].length; x++) {
 		let found = false;
 		for (let y = 0; y < universe.length; y++) {

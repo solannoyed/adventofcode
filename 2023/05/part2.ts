@@ -1,16 +1,16 @@
-type Range = {
+interface Range {
 	start: number;
 	length: number;
-};
+}
 
-type Mapping = {
+interface Mapping {
 	destination: number;
 	source: number;
 	length: number;
-};
+}
 
 function mappedRanges(ranges: Range[], mappings: Mapping[]) {
-	let destinations: Range[] = [];
+	const destinations: Range[] = [];
 	for (const range of ranges) {
 		for (const mapping of mappings) {
 			if (range.start >= mapping.source && range.start < mapping.source + mapping.length) {

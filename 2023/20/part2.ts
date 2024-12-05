@@ -1,5 +1,5 @@
 export default function (input: string) {
-	const modules: Map<string, Module> = new Map();
+	const modules = new Map<string, Module>();
 	input
 		.trim()
 		.split('\n')
@@ -62,7 +62,7 @@ export default function (input: string) {
 }
 
 function initialState(modules: Map<string, Module>) {
-	for (const [label, module] of modules) {
+	for (const [, module] of modules) {
 		if (module.state == 1) return false;
 	}
 	return true;
@@ -96,10 +96,10 @@ function initialStateCount(
 						queue.push({ label: destination, signal: module.state, source: module.label });
 					}
 					break;
-				case 'conjunction':
+				case 'conjunction': {
 					module.inputs.set(source, signal);
 					let pulse: State = 0;
-					for (const [input, state] of module.inputs) {
+					for (const [, state] of module.inputs) {
 						if (state == 0) {
 							pulse = 1;
 							break;
@@ -109,6 +109,7 @@ function initialStateCount(
 						queue.push({ label: destination, signal: pulse, source: module.label });
 					}
 					break;
+				}
 				case 'button':
 					for (const destination of module.outputs) {
 						queue.push({
@@ -124,12 +125,12 @@ function initialStateCount(
 	return count;
 }
 
-type Module = {
+interface Module {
 	type: 'flipflop' | 'conjunction' | 'button';
 	label: string;
 	inputs: Map<string, State>;
 	state: State; // whether module is on
 	outputs: string[];
-};
+}
 
 type State = 0 | 1; // acts as both whether the module is off/on and a low/high signal

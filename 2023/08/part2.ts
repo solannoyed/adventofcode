@@ -1,5 +1,5 @@
 export default function (input: string) {
-	let [instructionLine, _, ...lines] = input.trim().split('\n');
+	const [instructionLine, , ...lines] = input.trim().split('\n');
 	const map: number[][] = [];
 
 	const instructions = instructionLine
@@ -9,8 +9,8 @@ export default function (input: string) {
 
 	// extract the names so that we can substitute with numbers so it is easier to work with
 	const nodeNames: string[] = [];
-	let starts: number[] = [];
-	let ends = new Set<number>();
+	const starts: number[] = [];
+	const ends = new Set<number>();
 	lines.forEach((line) => {
 		const match = line.match(/^(\w{3}) =/i)!;
 		if (match[1].endsWith('A')) starts.push(nodeNames.length);

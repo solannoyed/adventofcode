@@ -33,7 +33,7 @@ export default function (input: string) {
 
 function getGraph(map: Tile[][]) {
 	// convert this into a directed and weighted graph
-	const nodes: Map<string, Node> = new Map();
+	const nodes = new Map<string, Node>();
 	const position: Position = {
 		x: 1,
 		y: 0,
@@ -142,18 +142,18 @@ function getGraph(map: Tile[][]) {
 type Tile = '#' | '.' | 'O' | Slope;
 type Slope = '^' | '>' | 'v' | '<';
 
-type Position = {
+interface Position {
 	x: number;
 	y: number;
 	direction: number;
-};
-type Node = {
+}
+interface Node {
 	x: number;
 	y: number;
 	edges: Edge[];
-};
-type Edge = {
+}
+interface Edge {
 	weight: number;
 	direction: -1 | 0 | 1;
 	destination?: Node;
-};
+}

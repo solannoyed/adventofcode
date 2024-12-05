@@ -5,7 +5,7 @@ export default function (input: string) {
 		.trim()
 		.split('\n')
 		.map((line) => line.split(' '))
-		.map(([direction, length, colour]) => {
+		.map(([direction, length]) => {
 			return {
 				direction: getCardinalDirection(direction)!,
 				length: parseInt(length)
@@ -13,8 +13,8 @@ export default function (input: string) {
 		});
 
 	let current = { x: 0, y: 0 };
-	let min = { x: 0, y: 0 };
-	let max = { x: 0, y: 0 };
+	const min = { x: 0, y: 0 };
+	const max = { x: 0, y: 0 };
 	for (const { direction, length } of plan) {
 		current.x += length * CARDINALS[direction].x;
 		current.y += length * CARDINALS[direction].y;

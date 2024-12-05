@@ -72,7 +72,7 @@ for (const date of dates) {
 		console.error('- Cookie environment variable missing');
 		continue;
 	}
-	let response = await fetch(`${date.url}/input`, {
+	const response = await fetch(`${date.url}/input`, {
 		headers: new Headers({ Cookie: Bun.env.COOKIE! })
 	});
 	if (!response.ok) {

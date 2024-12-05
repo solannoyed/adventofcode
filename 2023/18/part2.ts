@@ -6,7 +6,7 @@ export default function (input: string) {
 			.trim()
 			.split('\n')
 			.map((line) => line.split(' '))
-			.map(([direction, length, colour]) => {
+			.map(([, , colour]) => {
 				return {
 					direction: (parseInt(colour[7]) + 1) % 4,
 					length: parseInt(colour.substring(2, 7), 16)
