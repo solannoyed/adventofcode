@@ -6,8 +6,12 @@
 	"repository": "github:solannoyed/adventofcode",
 	"type": "module",
 	"devDependencies": {
+		"@eslint/js": "^9.16.0",
 		"@tsconfig/bun": "^1.0.7",
-		"@types/bun": "^1.1.14"
+		"@types/bun": "^1.1.14",
+		"eslint": "^9.16.0",
+		"eslint-config-prettier": "^9.1.0",
+		"typescript-eslint": "^8.17.0"
 	},
 	"peerDependencies": {
 		"typescript": "^5.3.2"
