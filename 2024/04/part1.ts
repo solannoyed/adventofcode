@@ -11,10 +11,7 @@ export default function (input: string) {
 					for (let letter = 1; letter < WORD.length; letter++) {
 						next.col += direction.x;
 						next.row += direction.y;
-						if (
-							puzzle[next.row] === undefined ||
-							puzzle[next.row][next.col] !== WORD[letter]
-						) {
+						if (puzzle[next.row] === undefined || puzzle[next.row][next.col] !== WORD[letter]) {
 							continue direction;
 						}
 					}

@@ -1,6 +1,6 @@
-import { readFileSync } from "fs";
+import { readFileSync } from 'fs';
 
-var getAnswer = function(filename) {
+var getAnswer = function (filename) {
 	let data;
 	try {
 		data = readFileSync(filename, 'utf-8');
@@ -44,9 +44,9 @@ var getAnswer = function(filename) {
 		if (value <= 100000) sum += value;
 	});
 	console.log(sum);
-}
+};
 
-var getAnswer2 = function(filename) {
+var getAnswer2 = function (filename) {
 	let data;
 	try {
 		data = readFileSync(filename, 'utf-8');
@@ -93,7 +93,7 @@ var getAnswer2 = function(filename) {
 		if (value > requiredDelete) minFolderSize = Math.min(minFolderSize, value);
 	});
 	console.log(minFolderSize);
-}
+};
 
 getAnswer('./2022-07.sample.txt');
 getAnswer('./2022-07.txt');

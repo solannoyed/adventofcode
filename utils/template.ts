@@ -38,9 +38,7 @@ const dates = Bun.argv
 		};
 	});
 if (dates.length == 0) {
-	console.error(
-		'Please use at least one command line argument for a valid AoC day, in the format `YYYY/DD`'
-	);
+	console.error('Please use at least one command line argument for a valid AoC day, in the format `YYYY/DD`');
 	process.exit();
 }
 
@@ -76,12 +74,7 @@ for (const date of dates) {
 		headers: new Headers({ Cookie: Bun.env.COOKIE! })
 	});
 	if (!response.ok) {
-		console.error(
-			'Could not fetch input:',
-			response.status,
-			response.statusText,
-			await response.text()
-		);
+		console.error('Could not fetch input:', response.status, response.statusText, await response.text());
 		continue;
 	}
 	Bun.write(input, response);

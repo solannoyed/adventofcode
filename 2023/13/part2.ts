@@ -9,10 +9,7 @@ export default function (input: string) {
 				horizontal: horizontalReflections(group)
 			};
 		})
-		.reduce(
-			(accumulator, { vertical, horizontal }) => accumulator + vertical + 100 * horizontal,
-			0
-		);
+		.reduce((accumulator, { vertical, horizontal }) => accumulator + vertical + 100 * horizontal, 0);
 }
 
 function verticalReflections(group: string[]) {

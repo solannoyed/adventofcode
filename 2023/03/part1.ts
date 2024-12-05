@@ -38,10 +38,7 @@ export default function (input: string) {
 				while (startIndex > 0 && isDigit(grid[destination.row][startIndex - 1])) {
 					startIndex--;
 				}
-				while (
-					endIndex < grid[destination.row].length - 1 &&
-					isDigit(grid[destination.row][endIndex + 1])
-				) {
+				while (endIndex < grid[destination.row].length - 1 && isDigit(grid[destination.row][endIndex + 1])) {
 					endIndex++;
 				}
 				result += parseInt(grid[destination.row].slice(startIndex, endIndex + 1).join(''));

@@ -1,12 +1,20 @@
-import { readFileSync } from "fs";
+import { readFileSync } from 'fs';
 
-const LROCK = 'A', LPAPER = 'B', LSCISSORS = 'C';
-const RROCK = 'X', RPAPER = 'Y', RSCISSORS = 'Z';
+const LROCK = 'A',
+	LPAPER = 'B',
+	LSCISSORS = 'C';
+const RROCK = 'X',
+	RPAPER = 'Y',
+	RSCISSORS = 'Z';
 
-const SWIN = 6, SDRAW = 3, SLOSE = 0;
-const SROCK = 1, SPAPER = 2, SSCISSORS = 3;
+const SWIN = 6,
+	SDRAW = 3,
+	SLOSE = 0;
+const SROCK = 1,
+	SPAPER = 2,
+	SSCISSORS = 3;
 
-var getScore = function(filename) {
+var getScore = function (filename) {
 	let data;
 	try {
 		data = readFileSync(filename, 'utf-8');
@@ -14,7 +22,7 @@ var getScore = function(filename) {
 		console.error(error);
 		return;
 	}
-	let rounds = data.split('\n').map(val => val.split(' '));
+	let rounds = data.split('\n').map((val) => val.split(' '));
 
 	let score = 0;
 	for (const round of rounds) {
@@ -33,13 +41,15 @@ var getScore = function(filename) {
 		}
 	}
 	console.log(score);
-}
+};
 
 // getScore('./2022-02-rock-paper-scissors.txt');
 
-const LLOSE = 'X', LDRAW = 'Y', LWIN = 'Z';
+const LLOSE = 'X',
+	LDRAW = 'Y',
+	LWIN = 'Z';
 
-var getScore2 = function(filename) {
+var getScore2 = function (filename) {
 	let data;
 	try {
 		data = readFileSync(filename, 'utf-8');
@@ -47,7 +57,7 @@ var getScore2 = function(filename) {
 		console.error(error);
 		return;
 	}
-	let rounds = data.split('\n').map(val => val.split(' '));
+	let rounds = data.split('\n').map((val) => val.split(' '));
 
 	let score = 0;
 	for (const round of rounds) {
@@ -66,5 +76,5 @@ var getScore2 = function(filename) {
 		}
 	}
 	console.log(score);
-}
+};
 getScore2('./2022-02-rock-paper-scissors.txt');

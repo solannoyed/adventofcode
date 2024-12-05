@@ -1,6 +1,6 @@
-import { readFileSync } from "fs";
+import { readFileSync } from 'fs';
 
-var getAnswer = function(filename, decryptionKey = 1, mixCount = 1) {
+var getAnswer = function (filename, decryptionKey = 1, mixCount = 1) {
 	let data;
 	try {
 		data = readFileSync(filename, 'utf-8');
@@ -8,18 +8,21 @@ var getAnswer = function(filename, decryptionKey = 1, mixCount = 1) {
 		console.error(error);
 		return;
 	}
-	let nums = data.trimEnd().split('\n').map((line, index) => {
-		return {
-			value: parseInt(line) * decryptionKey,
-			index: index
-		};
-	});
+	let nums = data
+		.trimEnd()
+		.split('\n')
+		.map((line, index) => {
+			return {
+				value: parseInt(line) * decryptionKey,
+				index: index
+			};
+		});
 	// console.log(nums.map(num=>num.value).join(', '));
 	// console.log(nums);
 
-	for (let mix = 0; mix < mixCount; mix ++) {
-		for (let index = 0; index < nums.length; index ++) {
-			const location = nums.findIndex(num => num.index === index);
+	for (let mix = 0; mix < mixCount; mix++) {
+		for (let index = 0; index < nums.length; index++) {
+			const location = nums.findIndex((num) => num.index === index);
 			const [num] = nums.splice(location, 1);
 			nums.splice((location + num.value) % nums.length, 0, num);
 		}
@@ -28,7 +31,7 @@ var getAnswer = function(filename, decryptionKey = 1, mixCount = 1) {
 	// console.log(nums);
 
 	// now search for 0
-	const location = nums.findIndex(num => num.value === 0);// console.log(location);
+	const location = nums.findIndex((num) => num.value === 0); // console.log(location);
 	let result = 0;
 	for (let offset = 1000; offset <= 3000; offset += 1000) {
 		result += nums[(location + offset) % nums.length].value;
@@ -74,7 +77,7 @@ var getAnswer = function(filename, decryptionKey = 1, mixCount = 1) {
 	// 	// console.log(finalOrder[coordIndex]);
 	// }
 	// return result;
-}
+};
 
 // console.log('part 1:', getAnswer('./2022-20.sample.txt'), '(sample)'); // 4 + -3 + 2 = 3
 // console.log('part 1:', getAnswer('./2022-20.txt')); // != 15317, != -9668

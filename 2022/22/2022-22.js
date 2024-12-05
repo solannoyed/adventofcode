@@ -1,4 +1,4 @@
-import { readFileSync } from "fs";
+import { readFileSync } from 'fs';
 
 const HEADING = {
 	LEFT: { x: -1, y: 0, z: 0, value: 2, map: '<' },
@@ -7,7 +7,7 @@ const HEADING = {
 	UP: { x: 0, y: -1, z: 0, value: 3, map: '^' },
 	FRONT: { x: 0, y: 0, z: -1 },
 	BACK: { x: 0, y: 0, z: 1 }
-}
+};
 
 const MAP_EMPTY = '.';
 const MAP_WALL = '#';
@@ -20,7 +20,7 @@ const STRAIGHT = 0;
 const RIGHT = 1;
 const LEFT = -1;
 
-var getGridAnswer = function(filename, sample = false) {
+var getGridAnswer = function (filename, sample = false) {
 	// ---- get the input data
 	let data;
 	try {
@@ -29,19 +29,22 @@ var getGridAnswer = function(filename, sample = false) {
 		console.error(error);
 		return;
 	}
-	const input = data.trimEnd().split('\n').map((line) => {
-		return line.split('');
-	});
+	const input = data
+		.trimEnd()
+		.split('\n')
+		.map((line) => {
+			return line.split('');
+		});
 	const path = input.pop();
-	input.pop() // empty line between map and path
+	input.pop(); // empty line between map and path
 
 	// ---- set up the map grids
 	const config = sample ? GRIDS_SAMPLE : GRIDS_INPUT;
 	const grids = new Array(config.length).fill(0);
-	for (let index = 0; index < grids.length; index ++) {
-		grids[index] = new Array(config[index].width).fill(0).map(_=>new Array(config[index].height));
-		for (let y = 0; y < config[index].height; y ++) {
-			for (let x = 0; x < config[index].width; x ++) {
+	for (let index = 0; index < grids.length; index++) {
+		grids[index] = new Array(config[index].width).fill(0).map((_) => new Array(config[index].height));
+		for (let y = 0; y < config[index].height; y++) {
+			for (let x = 0; x < config[index].width; x++) {
 				grids[index][x][y] = input[y + config[index].y][x + config[index].x] === MAP_WALL ? 1 : 0;
 			}
 		}
@@ -50,7 +53,7 @@ var getGridAnswer = function(filename, sample = false) {
 	// ---- set up the map directions
 	let direction = { heading: HEADING.RIGHT, distance: 0 };
 	let directions = [direction];
-	for (let index = 0; index < path.length; index ++) {
+	for (let index = 0; index < path.length; index++) {
 		let rotation = 0;
 		if (path[index] === MAP_RIGHT) rotation = RIGHT;
 		else if (path[index] === MAP_LEFT) rotation = LEFT;
@@ -66,7 +69,7 @@ var getGridAnswer = function(filename, sample = false) {
 	// ---- traverse the map
 	let location = { grid: 0, x: 0, y: 0, heading: HEADING.RIGHT };
 	for (const direction of directions) {
-		for (let step = 0; step < direction.distance; step ++) {
+		for (let step = 0; step < direction.distance; step++) {
 			// get our destination
 			const destination = { ...location };
 			destination.heading = direction.heading;
@@ -102,52 +105,59 @@ var getGridAnswer = function(filename, sample = false) {
 	result += 4 * (config[location.grid].x + location.x + 1); // 4 * col
 	result += location.heading.value;
 	return result;
-}
+};
 
-var drawInput = function(input) {
+var drawInput = function (input) {
 	for (const line of input) {
 		console.log(line.join(''));
 	}
-}
+};
 
-var drawGrids = function(grids) {
-	for (let index = 0; index < grids.length; index ++) {
+var drawGrids = function (grids) {
+	for (let index = 0; index < grids.length; index++) {
 		console.log(index);
-		for (let y = 0; y < grids[index][0].length; y ++) {
+		for (let y = 0; y < grids[index][0].length; y++) {
 			let line = '';
-			for (let x = 0; x < grids[index].length; x ++) {
+			for (let x = 0; x < grids[index].length; x++) {
 				line += grids[index][x][y] === 1 ? '#' : '.';
 			}
 			console.log(line);
 		}
 	}
-}
+};
 
-var drawCubeFace = function(faces, location, config) {
+var drawCubeFace = function (faces, location, config) {
 	console.log('===', config[location.face].name, '===');
-	for (let outy = 0; outy < config[location.face].width; outy ++) {
+	for (let outy = 0; outy < config[location.face].width; outy++) {
 		let line = '';
-		for (let outx = 0; outx < config[location.face].width; outx ++) {
+		for (let outx = 0; outx < config[location.face].width; outx++) {
 			if (location.face === FACE.FRONT || location.face === FACE.BACK) {
 				line += getCubeLocationChar(faces, location, location.face, outx, outy, 0);
 			} else if (location.face === FACE.TOP || location.face === FACE.BOTTOM) {
 				line += getCubeLocationChar(faces, location, location.face, outx, 0, outy);
-			} else { // LEFT / RIGHT
+			} else {
+				// LEFT / RIGHT
 				line += getCubeLocationChar(faces, location, location.face, 0, outy, outx);
 			}
 		}
 		console.log(line);
 	}
-}
+};
 
-var drawCubeFlat = function(faces, location, config) {
-	let output = new Array(200).fill(0).map(line=>new Array(150).fill(' '));
-	for (let face = 0; face < faces.length; face ++) {
-		for (let x = 0; x < faces[face].length; x ++) {
-			for (let y = 0; y < faces[face][x].length; y ++) {
-				for (let z = 0; z < faces[face][x][y].length; z ++) {
-					let outx = config[face].startx + config[face].directionx * x + (config[face].startz + (config[face].directionz * z)) * Math.abs(config[face].directiony);
-					let outy = config[face].starty + config[face].directiony * y + (config[face].startz + (config[face].directionz * z)) * Math.abs(config[face].directionx);
+var drawCubeFlat = function (faces, location, config) {
+	let output = new Array(200).fill(0).map((line) => new Array(150).fill(' '));
+	for (let face = 0; face < faces.length; face++) {
+		for (let x = 0; x < faces[face].length; x++) {
+			for (let y = 0; y < faces[face][x].length; y++) {
+				for (let z = 0; z < faces[face][x][y].length; z++) {
+					let outx =
+						config[face].startx +
+						config[face].directionx * x +
+						(config[face].startz + config[face].directionz * z) * Math.abs(config[face].directiony);
+					let outy =
+						config[face].starty +
+						config[face].directiony * y +
+						(config[face].startz + config[face].directionz * z) * Math.abs(config[face].directionx);
 					// need to do inversions
 					if (config[face].invertxz) output[outy][outx] = getCubeLocationChar(faces, location, face, z, y, x);
 					else if (config[face].invertyz) output[outy][outx] = getCubeLocationChar(faces, location, face, x, z, y);
@@ -156,16 +166,21 @@ var drawCubeFlat = function(faces, location, config) {
 			}
 		}
 	}
-	console.log(output.map(line=>line.join('').trimEnd()).join('\n').trimEnd());
-}
+	console.log(
+		output
+			.map((line) => line.join('').trimEnd())
+			.join('\n')
+			.trimEnd()
+	);
+};
 
-var getCubeLocationChar = function(faces, location, face, x, y, z) {
+var getCubeLocationChar = function (faces, location, face, x, y, z) {
 	if (face === location.face && location.x === x && location.y === y && location.z === z) return MAP_LOCATION;
 	else if (faces[face][x][y][z] === WALL) return MAP_WALL;
 	else return MAP_EMPTY;
-}
+};
 
-var getHeadingValue = function(heading) {
+var getHeadingValue = function (heading) {
 	switch (heading) {
 		case HEADING_RIGHT:
 			return 0;
@@ -184,18 +199,18 @@ var getHeadingValue = function(heading) {
 			return -1;
 			break;
 	}
-}
+};
 
-var getCubeHeadingValue = function(heading, face, config) {
+var getCubeHeadingValue = function (heading, face, config) {
 	// TODO: because we are only going to do this one time, it will be faster to manually calculate than implementing
 	console.log('heading', heading);
 	console.log('face', face);
 	// and we know what config we will be running
-}
+};
 
 // could optimise this by changing rotation to +/- 1 and making the heading += (4 + rotation) % 4
 // or even +3 or +5 then taking %4
-var getHeading = function(heading, rotation) {
+var getHeading = function (heading, rotation) {
 	switch (heading) {
 		case HEADING.RIGHT:
 			if (rotation === RIGHT) return HEADING.DOWN;
@@ -216,64 +231,64 @@ var getHeading = function(heading, rotation) {
 		default:
 			break;
 	}
-}
+};
 
-var getCubeHeading = function(face, heading, rotation) {
+var getCubeHeading = function (face, heading, rotation) {
 	// remember that heading is based on looking at the front of the cube
 	// for readability we should probably swap the heading and face checks
 	// TODO: make sure that the && and || will work as we are expecting here, otherwise add parentheses
 	if (
-		heading === HEADING.RIGHT && face === FACE.FRONT ||
-		heading === HEADING.LEFT && face === FACE.BACK ||
-		heading === HEADING.BACK && face === FACE.RIGHT ||
-		heading === HEADING.FRONT && face === FACE.LEFT
+		(heading === HEADING.RIGHT && face === FACE.FRONT) ||
+		(heading === HEADING.LEFT && face === FACE.BACK) ||
+		(heading === HEADING.BACK && face === FACE.RIGHT) ||
+		(heading === HEADING.FRONT && face === FACE.LEFT)
 	) {
 		if (rotation === RIGHT) return HEADING.DOWN;
 		else if (rotation === LEFT) return HEADING.UP;
 	} else if (
-		heading === HEADING.DOWN && face === FACE.FRONT ||
-		heading === HEADING.UP && face === FACE.BACK ||
-		heading === HEADING.BACK && face === FACE.BOTTOM ||
-		heading === HEADING.FRONT && face === FACE.TOP
+		(heading === HEADING.DOWN && face === FACE.FRONT) ||
+		(heading === HEADING.UP && face === FACE.BACK) ||
+		(heading === HEADING.BACK && face === FACE.BOTTOM) ||
+		(heading === HEADING.FRONT && face === FACE.TOP)
 	) {
 		if (rotation === RIGHT) return HEADING.LEFT;
 		else if (rotation === LEFT) return HEADING.RIGHT;
 	} else if (
-		heading === HEADING.LEFT && face === FACE.FRONT ||
-		heading === HEADING.BACK && face === FACE.LEFT ||
-		heading === HEADING.RIGHT && face === FACE.BACK ||
-		heading === HEADING.FRONT && face === FACE.RIGHT
+		(heading === HEADING.LEFT && face === FACE.FRONT) ||
+		(heading === HEADING.BACK && face === FACE.LEFT) ||
+		(heading === HEADING.RIGHT && face === FACE.BACK) ||
+		(heading === HEADING.FRONT && face === FACE.RIGHT)
 	) {
 		if (rotation === RIGHT) return HEADING.UP;
 		else if (rotation === LEFT) return HEADING.DOWN;
 	} else if (
-		heading === HEADING.UP && face === FACE.FRONT ||
-		heading === HEADING.DOWN && face === FACE.BACK ||
-		heading === HEADING.BACK && face === FACE.TOP ||
-		heading === HEADING.FRONT && face === FACE.BOTTOM
+		(heading === HEADING.UP && face === FACE.FRONT) ||
+		(heading === HEADING.DOWN && face === FACE.BACK) ||
+		(heading === HEADING.BACK && face === FACE.TOP) ||
+		(heading === HEADING.FRONT && face === FACE.BOTTOM)
 	) {
 		if (rotation === RIGHT) return HEADING.RIGHT;
 		else if (rotation === LEFT) return HEADING.LEFT;
 	} else if (
-		heading === HEADING.LEFT && face === FACE.BOTTOM ||
-		heading === HEADING.UP && face === FACE.LEFT ||
-		heading === HEADING.RIGHT && face === FACE.TOP ||
-		heading === HEADING.DOWN && face === FACE.RIGHT
+		(heading === HEADING.LEFT && face === FACE.BOTTOM) ||
+		(heading === HEADING.UP && face === FACE.LEFT) ||
+		(heading === HEADING.RIGHT && face === FACE.TOP) ||
+		(heading === HEADING.DOWN && face === FACE.RIGHT)
 	) {
 		if (rotation === RIGHT) return HEADING.FRONT;
 		else if (rotation === LEFT) return HEADING.BACK;
 	} else if (
-		heading === HEADING.RIGHT && face === FACE.BOTTOM ||
-		heading === HEADING.DOWN && face === FACE.LEFT ||
-		heading === HEADING.LEFT && face === FACE.TOP ||
-		heading === HEADING.UP && face === FACE.RIGHT
+		(heading === HEADING.RIGHT && face === FACE.BOTTOM) ||
+		(heading === HEADING.DOWN && face === FACE.LEFT) ||
+		(heading === HEADING.LEFT && face === FACE.TOP) ||
+		(heading === HEADING.UP && face === FACE.RIGHT)
 	) {
 		if (rotation === RIGHT) return HEADING.BACK;
 		else if (rotation === LEFT) return HEADING.FRONT;
 	}
-}
+};
 
-var getCubeAnswer = function(filename, sample = false) {
+var getCubeAnswer = function (filename, sample = false) {
 	// ---- get the input data
 	let data;
 	try {
@@ -282,41 +297,50 @@ var getCubeAnswer = function(filename, sample = false) {
 		console.error(error);
 		return;
 	}
-	const input = data.trimEnd().split('\n').map((line) => {
-		return line.split('');
-	});
+	const input = data
+		.trimEnd()
+		.split('\n')
+		.map((line) => {
+			return line.split('');
+		});
 	const path = input.pop();
 	// input.pop() // empty line between map and path
 
 	// ---- set up the map cube faces
 	const config = sample ? CUBE_SAMPLE : CUBE_INPUT;
 	const faces = new Array(config.length);
-	for (let face = 0; face < config.length; face ++) {
+	for (let face = 0; face < config.length; face++) {
 		faces[face] = new Array(1 + (config[face].width - 1) * Math.abs(config[face].directionx));
 
-		for (let x = 0; x < faces[face].length; x ++) {
+		for (let x = 0; x < faces[face].length; x++) {
 			faces[face][x] = new Array(1 + (config[face].width - 1) * Math.abs(config[face].directiony));
 
-			for (let y = 0; y < faces[face][x].length; y ++) {
+			for (let y = 0; y < faces[face][x].length; y++) {
 				faces[face][x][y] = new Array(1 + (config[face].width - 1) * Math.abs(config[face].directionz));
 
-				for (let z = 0; z < faces[face][x][y].length; z ++) {
-					let inputx = config[face].startx + (config[face].directionx * x) + (config[face].startz + (config[face].directionz * z)) * Math.abs(config[face].directiony);
-					let inputy = config[face].starty + (config[face].directiony * y) + (config[face].startz + (config[face].directionz * z)) * Math.abs(config[face].directionx);
+				for (let z = 0; z < faces[face][x][y].length; z++) {
+					let inputx =
+						config[face].startx +
+						config[face].directionx * x +
+						(config[face].startz + config[face].directionz * z) * Math.abs(config[face].directiony);
+					let inputy =
+						config[face].starty +
+						config[face].directiony * y +
+						(config[face].startz + config[face].directionz * z) * Math.abs(config[face].directionx);
 					// inputy is the line, inputx is the character (x-y inverted)
 					faces[face][x][y][z] = input[inputy][inputx] === MAP_WALL ? 1 : 0;
 				}
 			}
 		}
 		if (config[face].invertxz) {
-			for (let x = 1; x < faces[face].length; x ++) {
-				for (let z = 0; z < x; z ++) {
-					[faces[face][x][0][z], faces[face][z][0][x]] = [faces[face][z][0][x], faces[face][x][0][z]]
+			for (let x = 1; x < faces[face].length; x++) {
+				for (let z = 0; z < x; z++) {
+					[faces[face][x][0][z], faces[face][z][0][x]] = [faces[face][z][0][x], faces[face][x][0][z]];
 				}
 			}
 		} else if (config[face].invertyz) {
-			for (let y = 1; y < faces[face][0].length; y ++) {
-				for (let z = 0; z < y; z ++) {
+			for (let y = 1; y < faces[face][0].length; y++) {
+				for (let z = 0; z < y; z++) {
 					[faces[face][0][y][z], faces[face][0][z][y]] = [faces[face][0][z][y], faces[face][0][y][z]];
 				}
 			}
@@ -326,7 +350,7 @@ var getCubeAnswer = function(filename, sample = false) {
 	// ---- set up the map directions
 	let direction = { rotation: RIGHT, distance: 0 };
 	let directions = [direction];
-	for (let index = 0; index < path.length; index ++) {
+	for (let index = 0; index < path.length; index++) {
 		let rotation = STRAIGHT;
 		if (path[index] === MAP_RIGHT) rotation = RIGHT;
 		else if (path[index] === MAP_LEFT) rotation = LEFT;
@@ -343,13 +367,13 @@ var getCubeAnswer = function(filename, sample = false) {
 	let location = { face: FACE.FRONT, x: 0, y: 0, z: 0, heading: HEADING.UP }; // start heading is UP because we turn RIGHT with the first direction
 	for (const direction of directions) {
 		location.heading = getCubeHeading(location.face, location.heading, direction.rotation);
-		for (let step = 0; step < direction.distance; step ++) {
+		for (let step = 0; step < direction.distance; step++) {
 			// get our destination
 			const destination = { ...location };
 			destination.x += location.heading.x;
 			destination.y += location.heading.y;
 			destination.z += location.heading.z;
-			
+
 			let overflow = false;
 			if (destination.x === faces[location.face].length) {
 				// moving to the RIGHT face
@@ -382,7 +406,7 @@ var getCubeAnswer = function(filename, sample = false) {
 				destination.face = FACE.FRONT;
 				overflow = true;
 			}
-			
+
 			if (overflow) {
 				// if we have gone over an edge of a face, we are always moving away from that face
 				if (location.face === FACE.LEFT) {
@@ -421,7 +445,7 @@ var getCubeAnswer = function(filename, sample = false) {
 	// row: 152 + 1 = 153
 	// heading: UP
 	// 1000 * 153 + 4 * 50 + 3 = 153203
-}
+};
 
 const FACE = {
 	FRONT: 0,
@@ -430,7 +454,7 @@ const FACE = {
 	RIGHT: 3,
 	BOTTOM: 4,
 	TOP: 5
-}
+};
 // looking at the front, we use the x-y for both front and back as if only the z changes
 // still looking at the front, we use the same concept but with y and z for left/right and top/bottom
 // x,y,z = 0 is the front top left of the cube
@@ -494,7 +518,7 @@ const CUBE_SAMPLE = [
 		startz: 4,
 		directionx: -1,
 		directiony: 0,
-		directionz: 1,
+		directionz: 1
 	}
 ];
 const CUBE_INPUT = [
@@ -561,9 +585,9 @@ const CUBE_INPUT = [
 	}
 ];
 
-
 const GRIDS_SAMPLE = [
-	{ // 0
+	{
+		// 0
 		x: 8,
 		y: 0,
 		width: 4,
@@ -574,7 +598,8 @@ const GRIDS_SAMPLE = [
 		up: 3,
 		down: 2
 	},
-	{ // 1
+	{
+		// 1
 		x: 0,
 		y: 4,
 		width: 8,
@@ -585,7 +610,8 @@ const GRIDS_SAMPLE = [
 		up: 1,
 		down: 1
 	},
-	{ // 2
+	{
+		// 2
 		x: 8,
 		y: 4,
 		width: 4,
@@ -596,7 +622,8 @@ const GRIDS_SAMPLE = [
 		up: 0,
 		down: 3
 	},
-	{ // 3
+	{
+		// 3
 		x: 8,
 		y: 8,
 		width: 4,
@@ -607,7 +634,8 @@ const GRIDS_SAMPLE = [
 		up: 2,
 		down: 0
 	},
-	{ // 4
+	{
+		// 4
 		x: 12,
 		y: 8,
 		width: 4,
@@ -620,7 +648,8 @@ const GRIDS_SAMPLE = [
 	}
 ];
 const GRIDS_INPUT = [
-	{ // 0
+	{
+		// 0
 		x: 50,
 		y: 0,
 		width: 50,
@@ -631,7 +660,8 @@ const GRIDS_INPUT = [
 		up: 4,
 		down: 2
 	},
-	{ // 1
+	{
+		// 1
 		x: 100,
 		y: 0,
 		width: 50,
@@ -642,7 +672,8 @@ const GRIDS_INPUT = [
 		up: 1,
 		down: 1
 	},
-	{ // 2
+	{
+		// 2
 		x: 50,
 		y: 50,
 		width: 50,
@@ -653,7 +684,8 @@ const GRIDS_INPUT = [
 		up: 0,
 		down: 4
 	},
-	{ // 3
+	{
+		// 3
 		x: 0,
 		y: 100,
 		width: 50,
@@ -664,7 +696,8 @@ const GRIDS_INPUT = [
 		up: 5,
 		down: 5
 	},
-	{ // 4
+	{
+		// 4
 		x: 50,
 		y: 100,
 		width: 50,
@@ -675,7 +708,8 @@ const GRIDS_INPUT = [
 		up: 2,
 		down: 0
 	},
-	{ // 5
+	{
+		// 5
 		x: 0,
 		y: 150,
 		width: 50,
@@ -694,7 +728,6 @@ const startTime = performance.now();
 
 // console.log('part 2:', getCubeAnswer('./2022-22.sample.txt', true), '(sample)');
 console.log('part 2:', getCubeAnswer('./2022-22.txt')); // > 53368 = 153203
-
 
 const endTime = performance.now();
 console.log('time', Math.trunc(endTime - startTime));

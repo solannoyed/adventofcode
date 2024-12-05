@@ -1,6 +1,6 @@
-import { readFileSync } from "fs";
+import { readFileSync } from 'fs';
 
-var getAnswer = function(filename) {
+var getAnswer = function (filename) {
 	let data;
 	try {
 		data = readFileSync(filename, 'utf-8');
@@ -8,10 +8,13 @@ var getAnswer = function(filename) {
 		console.error(error);
 		return;
 	}
-	let lines = data.trimEnd().split('\n').map((line) => {
-		let points = line.split(' -> ').map(point=>point.split(',').map(val=>parseInt(val)));
-		return points;
-	});
+	let lines = data
+		.trimEnd()
+		.split('\n')
+		.map((line) => {
+			let points = line.split(' -> ').map((point) => point.split(',').map((val) => parseInt(val)));
+			return points;
+		});
 
 	let minX = Infinity;
 	let maxX = 0;
@@ -28,16 +31,16 @@ var getAnswer = function(filename) {
 	}
 
 	let grid = [];
-	for (let x = 0; x <= maxX; x ++) {
+	for (let x = 0; x <= maxX; x++) {
 		grid.push([]);
-		for (let y = 0; y <= maxY; y ++) {
+		for (let y = 0; y <= maxY; y++) {
 			grid[x].push(0);
 		}
 	}
 
 	for (const line of lines) {
 		let prevPoint = line[0];
-		for (let index = 1; index < line.length; index ++) {
+		for (let index = 1; index < line.length; index++) {
 			let curPoint = line[index];
 			drawLine(grid, prevPoint, curPoint);
 			prevPoint = curPoint;
@@ -56,7 +59,7 @@ var getAnswer = function(filename) {
 	let sand = true;
 	let sandStart = [500, -1];
 	while (sand) {
-		count ++;
+		count++;
 		let stuck = false;
 		let grainPos = sandStart;
 		while (!stuck && sand) {
@@ -86,29 +89,29 @@ var getAnswer = function(filename) {
 
 	let result = 0;
 
-	for (let index = 0; index < lines.length; index ++) {
+	for (let index = 0; index < lines.length; index++) {
 		let line = lines[index];
 	}
 
 	return result;
-}
+};
 
-var drawLine = function(grid, from, to) {
+var drawLine = function (grid, from, to) {
 	let fromX = Math.min(from[0], to[0]);
 	let fromY = Math.min(from[1], to[1]);
 	let toX = Math.max(from[0], to[0]);
 	let toY = Math.max(from[1], to[1]);
 
-	for (let x = fromX; x <= toX; x ++) {
-		for (let y = fromY; y <= toY; y ++) {
+	for (let x = fromX; x <= toX; x++) {
+		for (let y = fromY; y <= toY; y++) {
 			grid[x][y] = 1;
 		}
 	}
-}
-var printGrid = function(grid, minX, maxX, minY, maxY) {
-	for (let y = 0; y <= maxY + 10; y ++) {
+};
+var printGrid = function (grid, minX, maxX, minY, maxY) {
+	for (let y = 0; y <= maxY + 10; y++) {
 		let line = '';
-		for (let x = minX; x <= maxX; x ++) {
+		for (let x = minX; x <= maxX; x++) {
 			if (x >= grid.length || y >= grid[x].length) break;
 			if (grid[x][y] === 0) line += '.';
 			else if (grid[x][y] === 1) line += '#';
@@ -117,9 +120,9 @@ var printGrid = function(grid, minX, maxX, minY, maxY) {
 		console.log(line);
 		if (y > maxY) break;
 	}
-}
+};
 
-var getAnswer2 = function(filename) {
+var getAnswer2 = function (filename) {
 	let data;
 	try {
 		data = readFileSync(filename, 'utf-8');
@@ -127,10 +130,13 @@ var getAnswer2 = function(filename) {
 		console.error(error);
 		return;
 	}
-	let lines = data.trimEnd().split('\n').map((line) => {
-		let points = line.split(' -> ').map(point=>point.split(',').map(val=>parseInt(val)));
-		return points;
-	});
+	let lines = data
+		.trimEnd()
+		.split('\n')
+		.map((line) => {
+			let points = line.split(' -> ').map((point) => point.split(',').map((val) => parseInt(val)));
+			return points;
+		});
 
 	let minX = Infinity;
 	let maxX = 0;
@@ -150,16 +156,16 @@ var getAnswer2 = function(filename) {
 	maxX = 1000 - minX;
 
 	let grid = [];
-	for (let x = 0; x <= maxX; x ++) {
+	for (let x = 0; x <= maxX; x++) {
 		grid.push([]);
-		for (let y = 0; y <= maxY; y ++) {
+		for (let y = 0; y <= maxY; y++) {
 			grid[x].push(0);
 		}
 	}
 
 	for (const line of lines) {
 		let prevPoint = line[0];
-		for (let index = 1; index < line.length; index ++) {
+		for (let index = 1; index < line.length; index++) {
 			let curPoint = line[index];
 			drawLine(grid, prevPoint, curPoint);
 			prevPoint = curPoint;
@@ -180,7 +186,7 @@ var getAnswer2 = function(filename) {
 	let sand = true;
 	let sandStart = [500, 0];
 	while (sand) {
-		count ++;
+		count++;
 		let stuck = false;
 		// if (grid[sandStart[0]][sandStart[1]] !== 0) break;
 		let grainPos = sandStart;
@@ -194,7 +200,7 @@ var getAnswer2 = function(filename) {
 				// 	stuck = false;
 				// 	sand = false;
 				// 	break;
-				// } else 
+				// } else
 				if (grid[nextPos[0]][nextPos[1]] === 0) {
 					grainPos = nextPos;
 					stuck = false;
@@ -210,7 +216,7 @@ var getAnswer2 = function(filename) {
 	}
 	// printGrid(grid, minX, maxX, 0, maxY);
 	return count + 1;
-}
+};
 
 console.log('part 1:', getAnswer('./2022-14.sample.txt'), '(sample)');
 console.log('part 1:', getAnswer('./2022-14.txt'));

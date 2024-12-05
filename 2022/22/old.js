@@ -1,4 +1,4 @@
-import { readFileSync } from "fs";
+import { readFileSync } from 'fs';
 
 // const HEADING_RIGHT = 0;
 // const HEADING_DOWN = 1;
@@ -27,7 +27,7 @@ const MAP_UP = '^';
 const ROTATE_RIGHT = 'R';
 const ROTATE_LEFT = 'L';
 
-var getAnswer = function(filename) {
+var getAnswer = function (filename) {
 	let data;
 	try {
 		data = readFileSync(filename, 'utf-8');
@@ -35,19 +35,22 @@ var getAnswer = function(filename) {
 		console.error(error);
 		return;
 	}
-	let lines = data.trimEnd().split('\n').map((line) => {
-		return line.split('');
-	});
+	let lines = data
+		.trimEnd()
+		.split('\n')
+		.map((line) => {
+			return line.split('');
+		});
 	let path = lines.pop();
-	lines.pop() // empty line between map and path
+	lines.pop(); // empty line between map and path
 	let maxCols = 0;
-	lines.forEach(row => maxCols = Math.max(maxCols, row.length));
+	lines.forEach((row) => (maxCols = Math.max(maxCols, row.length)));
 	const map = new Array(lines.length);
 	// this is a bit hacky/lazy, but it solves the looping problem when going 'down' when the next row is shorter
-	for (let row = 0; row < lines.length; row ++) {
+	for (let row = 0; row < lines.length; row++) {
 		map[row] = new Array(maxCols);
 		map[row].fill(MAP_NONE);
-		for (let col = 0; col < lines[row].length; col ++) {
+		for (let col = 0; col < lines[row].length; col++) {
 			map[row][col] = lines[row][col];
 		}
 	}
@@ -55,11 +58,11 @@ var getAnswer = function(filename) {
 
 	let directions = [];
 	let direction = { heading: HEADING_RIGHT, distance: '' };
-	for (let index = 0; index < path.length; index ++) {
+	for (let index = 0; index < path.length; index++) {
 		if (path[index] === ROTATE_RIGHT || path[index] === ROTATE_LEFT) {
 			direction.distance = parseInt(direction.distance);
 			directions.push(direction);
-			direction = { heading: getHeading(direction.heading, path[index]),  distance: '' };
+			direction = { heading: getHeading(direction.heading, path[index]), distance: '' };
 		} else {
 			direction.distance += path[index];
 		}
@@ -69,9 +72,8 @@ var getAnswer = function(filename) {
 	console.log(directions);
 	return;
 
-
 	let position = { x: 0, y: 0 };
-	while (map[0][position.x] === MAP_NONE) position.x ++;
+	while (map[0][position.x] === MAP_NONE) position.x++;
 
 	for (const direction of directions) {
 		// console.log(position);
@@ -79,20 +81,34 @@ var getAnswer = function(filename) {
 	}
 	// console.log(position, directions[directions.length - 1]);
 	drawMap(map);
-	console.log(1000, '* (', position.y, '+', 1, ') + 4 * (', position.x, '+', 1, ') +', getHeadingValue(directions[directions.length - 1].heading), '=', 1000 * (position.y + 1) + 4 * (position.x + 1) + getHeadingValue(directions[directions.length - 1].heading));
+	console.log(
+		1000,
+		'* (',
+		position.y,
+		'+',
+		1,
+		') + 4 * (',
+		position.x,
+		'+',
+		1,
+		') +',
+		getHeadingValue(directions[directions.length - 1].heading),
+		'=',
+		1000 * (position.y + 1) + 4 * (position.x + 1) + getHeadingValue(directions[directions.length - 1].heading)
+	);
 	return 1000 * (position.y + 1) + 4 * (position.x + 1) + getHeadingValue(directions[directions.length - 1].heading);
 	// while (lines[])
 
 	let result = 0;
 
-	for (let index = 0; index < lines.length; index ++) {
+	for (let index = 0; index < lines.length; index++) {
 		let line = lines[index];
 	}
 
 	return result;
-}
+};
 
-var getHeadingValue = function(heading) {
+var getHeadingValue = function (heading) {
 	switch (heading) {
 		case HEADING_RIGHT:
 			return 0;
@@ -111,13 +127,13 @@ var getHeadingValue = function(heading) {
 			return -1;
 			break;
 	}
-}
+};
 
-var getDestination = function(map, origin, direction) {
+var getDestination = function (map, origin, direction) {
 	let destination = origin;
 
-	for (let i = 0; i < direction.distance; i ++) {
-		let tmp = {...destination};
+	for (let i = 0; i < direction.distance; i++) {
+		let tmp = { ...destination };
 		updateMap(map, tmp, direction);
 		tmp.x += direction.heading.x;
 		tmp.y += direction.heading.y;
@@ -127,7 +143,13 @@ var getDestination = function(map, origin, direction) {
 		if (tmp.x === map.length) tmp.x = 0;
 		else if (tmp.x === -1) tmp.x = map[tmp.y].length - 1;
 		// skip the empty space
-		while (tmp.y < map.length && tmp.y >= 0 && tmp.x < map[tmp.y].length && tmp.x >= 0 && map[tmp.y][tmp.x] === MAP_NONE) {
+		while (
+			tmp.y < map.length &&
+			tmp.y >= 0 &&
+			tmp.x < map[tmp.y].length &&
+			tmp.x >= 0 &&
+			map[tmp.y][tmp.x] === MAP_NONE
+		) {
 			tmp.x += direction.heading.x;
 			tmp.y += direction.heading.y;
 		}
@@ -137,7 +159,13 @@ var getDestination = function(map, origin, direction) {
 		if (tmp.x === map.length) tmp.x = 0;
 		else if (tmp.x === -1) tmp.x = map[tmp.y].length - 1;
 		// skip empty space again
-		while (tmp.y < map.length && tmp.y >= 0 && tmp.x < map[tmp.y].length && tmp.x >= 0 && map[tmp.y][tmp.x] === MAP_NONE) {
+		while (
+			tmp.y < map.length &&
+			tmp.y >= 0 &&
+			tmp.x < map[tmp.y].length &&
+			tmp.x >= 0 &&
+			map[tmp.y][tmp.x] === MAP_NONE
+		) {
 			tmp.x += direction.heading.x;
 			tmp.y += direction.heading.y;
 		}
@@ -147,24 +175,24 @@ var getDestination = function(map, origin, direction) {
 	}
 
 	return destination;
-}
+};
 
-var drawMap = function(map) {
-	for (let row = 0; row < map.length; row ++) console.log(map[row].join(''));
-}
+var drawMap = function (map) {
+	for (let row = 0; row < map.length; row++) console.log(map[row].join(''));
+};
 
-var updateMap = function(map, position, direction) {
+var updateMap = function (map, position, direction) {
 	if (map[position.y][position.x] === MAP_EMPTY) {
 		if (direction.heading === HEADING_RIGHT) map[position.y][position.x] = MAP_RIGHT;
 		else if (direction.heading === HEADING_DOWN) map[position.y][position.x] = MAP_DOWN;
 		else if (direction.heading === HEADING_LEFT) map[position.y][position.x] = MAP_LEFT;
 		else if (direction.heading === HEADING_UP) map[position.y][position.x] = MAP_UP;
 	}
-}
+};
 //10R5L5R10L4R5L5
 // could optimise this by changing rotation to +/- 1 and making the heading += (4 + rotation) % 4
 // or even +3 or +5 then taking %4
-var getHeading = function(heading, rotation) {
+var getHeading = function (heading, rotation) {
 	switch (heading) {
 		case HEADING_RIGHT:
 			if (rotation === ROTATE_RIGHT) return HEADING_DOWN;
@@ -185,9 +213,9 @@ var getHeading = function(heading, rotation) {
 		default:
 			break;
 	}
-}
+};
 
-var getAnswer2 = function(filename) {
+var getAnswer2 = function (filename) {
 	let data;
 	try {
 		data = readFileSync(filename, 'utf-8');
@@ -195,18 +223,21 @@ var getAnswer2 = function(filename) {
 		console.error(error);
 		return;
 	}
-	let lines = data.trimEnd().split('\n').map((line) => {
-		return line;
-	});
+	let lines = data
+		.trimEnd()
+		.split('\n')
+		.map((line) => {
+			return line;
+		});
 
 	let result = 0;
 
-	for (let index = 0; index < lines.length; index ++) {
+	for (let index = 0; index < lines.length; index++) {
 		let line = lines[index];
 	}
 
 	return result;
-}
+};
 
 // looking at the front, we use the x-y for both front and back as if only the z changes
 // still looking at the front, we use the same concept but with y and z for left/right and top/bottom
@@ -292,14 +323,14 @@ const CUBE_INPUT = {
 	}
 };
 // console.log('part 1:', getAnswer('./2022-22.sample.txt'), '(sample)');
-// console.log('part 1:', getAnswer('./2022-22.txt')); // > 14602 > 97406 > 116386 
+// console.log('part 1:', getAnswer('./2022-22.txt')); // > 14602 > 97406 > 116386
 
 // console.log('part 2:', getAnswer2('./2022-22.sample.txt'), '(sample)');
 // console.log('part 2:', getAnswer2('./2022-22.txt'));
 
-
 const GRIDS_SAMPLE = [
-	{ // 0
+	{
+		// 0
 		x: 8,
 		y: 0,
 		width: 4,
@@ -310,7 +341,8 @@ const GRIDS_SAMPLE = [
 		up: 3,
 		down: 2
 	},
-	{ // 1
+	{
+		// 1
 		x: 0,
 		y: 4,
 		width: 8,
@@ -321,7 +353,8 @@ const GRIDS_SAMPLE = [
 		up: 1,
 		down: 1
 	},
-	{ // 2
+	{
+		// 2
 		x: 8,
 		y: 4,
 		width: 4,
@@ -332,7 +365,8 @@ const GRIDS_SAMPLE = [
 		up: 0,
 		down: 3
 	},
-	{ // 3
+	{
+		// 3
 		x: 8,
 		y: 8,
 		width: 4,
@@ -343,7 +377,8 @@ const GRIDS_SAMPLE = [
 		up: 2,
 		down: 0
 	},
-	{ // 4
+	{
+		// 4
 		x: 12,
 		y: 8,
 		width: 4,
@@ -356,7 +391,8 @@ const GRIDS_SAMPLE = [
 	}
 ];
 const GRIDS_INPUT = [
-	{ // 0
+	{
+		// 0
 		x: 50,
 		y: 0,
 		width: 50,
@@ -367,7 +403,8 @@ const GRIDS_INPUT = [
 		up: 4,
 		down: 2
 	},
-	{ // 1
+	{
+		// 1
 		x: 100,
 		y: 0,
 		width: 50,
@@ -378,7 +415,8 @@ const GRIDS_INPUT = [
 		up: 1,
 		down: 1
 	},
-	{ // 2
+	{
+		// 2
 		x: 50,
 		y: 50,
 		width: 50,
@@ -389,7 +427,8 @@ const GRIDS_INPUT = [
 		up: 0,
 		down: 4
 	},
-	{ // 3
+	{
+		// 3
 		x: 0,
 		y: 100,
 		width: 50,
@@ -400,7 +439,8 @@ const GRIDS_INPUT = [
 		up: 5,
 		down: 5
 	},
-	{ // 4
+	{
+		// 4
 		x: 50,
 		y: 100,
 		width: 50,
@@ -422,4 +462,4 @@ const GRIDS_INPUT = [
 		up: 3,
 		down: 3
 	}
-]
+];

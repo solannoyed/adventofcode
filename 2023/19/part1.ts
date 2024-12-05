@@ -11,9 +11,7 @@ export default function (input: string) {
 	});
 
 	const parts: Part[] = groups[1].map((line) =>
-		JSON.parse(
-			line.replaceAll('=', ':').replaceAll('{', '{"').replaceAll(':', '":').replaceAll(',', ',"')
-		)
+		JSON.parse(line.replaceAll('=', ':').replaceAll('{', '{"').replaceAll(':', '":').replaceAll(',', ',"'))
 	);
 
 	let result = 0;

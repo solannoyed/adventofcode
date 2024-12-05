@@ -68,10 +68,7 @@ function initialState(modules: Map<string, Module>) {
 	return true;
 }
 
-function initialStateCount(
-	modules: Map<string, Module>,
-	start: { label: string; signal: State; source: string }
-) {
+function initialStateCount(modules: Map<string, Module>, start: { label: string; signal: State; source: string }) {
 	let count = 0;
 	do {
 		count++;

@@ -32,8 +32,7 @@ export function energisedCount(beam: Beam, grid: Tile[][]) {
 		const current = beams.pop()!;
 		const next = getBeams(current, grid);
 		for (const beam of next) {
-			if (beam.x < 0 || beam.y < 0 || beam.y >= grid.length || beam.x >= grid[beam.y].length)
-				continue;
+			if (beam.x < 0 || beam.y < 0 || beam.y >= grid.length || beam.x >= grid[beam.y].length) continue;
 			const hash = getHash(beam);
 			if (visited.has(hash)) continue;
 
@@ -44,8 +43,7 @@ export function energisedCount(beam: Beam, grid: Tile[][]) {
 	}
 
 	return energised.reduce(
-		(accumulator, row) =>
-			accumulator + row.reduce((accumulator, tile) => accumulator + (tile ? 1 : 0), 0),
+		(accumulator, row) => accumulator + row.reduce((accumulator, tile) => accumulator + (tile ? 1 : 0), 0),
 		0
 	);
 }

@@ -1,6 +1,6 @@
-import { readFileSync } from "fs";
+import { readFileSync } from 'fs';
 
-var getAnswer = function(filename) {
+var getAnswer = function (filename) {
 	let data;
 	try {
 		data = readFileSync(filename, 'utf-8');
@@ -11,7 +11,7 @@ var getAnswer = function(filename) {
 	let line = data.trimEnd();
 
 	let index;
-	for (index = 0; index < line.length - 4; index ++) {
+	for (index = 0; index < line.length - 4; index++) {
 		let set = new Set([...line.substring(index, index + 4)]);
 		// console.log(set.size);
 		if (set.size === 4) {
@@ -19,9 +19,9 @@ var getAnswer = function(filename) {
 			return;
 		}
 	}
-}
+};
 
-var getAnswer2 = function(filename) {
+var getAnswer2 = function (filename) {
 	let data;
 	try {
 		data = readFileSync(filename, 'utf-8');
@@ -32,7 +32,7 @@ var getAnswer2 = function(filename) {
 	let line = data.trimEnd();
 
 	let index;
-	for (index = 0; index < line.length - 4; index ++) {
+	for (index = 0; index < line.length - 4; index++) {
 		let set = new Set([...line.substring(index, index + 14)]);
 		// console.log(set.size);
 		if (set.size === 14) {
@@ -40,7 +40,7 @@ var getAnswer2 = function(filename) {
 			return;
 		}
 	}
-}
+};
 
 getAnswer('./2022-06.sample.txt');
 getAnswer('./2022-06.txt');

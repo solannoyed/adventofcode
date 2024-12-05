@@ -43,10 +43,8 @@ export default function (input: string) {
 			if (collision.y < RANGE.min || collision.y > RANGE.max) continue;
 			if (hailstones[first].velocity.x >= 0 && collision.x < hailstones[first].position.x) continue;
 			if (hailstones[first].velocity.x <= 0 && collision.x > hailstones[first].position.x) continue;
-			if (hailstones[second].velocity.x >= 0 && collision.x < hailstones[second].position.x)
-				continue;
-			if (hailstones[second].velocity.x <= 0 && collision.x > hailstones[second].position.x)
-				continue;
+			if (hailstones[second].velocity.x >= 0 && collision.x < hailstones[second].position.x) continue;
+			if (hailstones[second].velocity.x <= 0 && collision.x > hailstones[second].position.x) continue;
 			collisions++;
 		}
 	}

@@ -31,12 +31,7 @@ export function countReachable(plot: Tile[][], start: { x: number; y: number }, 
 					x: current.x + direction.x,
 					y: current.y + direction.y
 				};
-				if (
-					!plot[position.y] ||
-					!plot[position.y][position.x] ||
-					plot[position.y][position.x] == '#'
-				)
-					continue;
+				if (!plot[position.y] || !plot[position.y][position.x] || plot[position.y][position.x] == '#') continue;
 				if (visited[position.y][position.x]) continue;
 				count[step % 2]++;
 				visited[position.y][position.x] = true;

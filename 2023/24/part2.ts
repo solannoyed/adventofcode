@@ -36,11 +36,9 @@ export default function (input: string) {
 
 			// I've skipped ones that are parallel in some way
 			let coeff = getCoefficientsXY(s, first, second);
-			if (coeff.a != 0 && coeff.b != 0 && coeff.c != 0 && coeff.d != 0 && coeff.e != 0)
-				xy.push(coeff);
+			if (coeff.a != 0 && coeff.b != 0 && coeff.c != 0 && coeff.d != 0 && coeff.e != 0) xy.push(coeff);
 			coeff = getCoefficientsXZ(s, first, second);
-			if (coeff.a != 0 && coeff.b != 0 && coeff.c != 0 && coeff.d != 0 && coeff.e != 0)
-				xz.push(coeff);
+			if (coeff.a != 0 && coeff.b != 0 && coeff.c != 0 && coeff.d != 0 && coeff.e != 0) xz.push(coeff);
 		}
 	}
 
@@ -137,11 +135,7 @@ function getCoefficientsXY(s: Hailstone[], first: number, second: number): Coeff
 		b: s[second].dx - s[first].dx,
 		c: s[second].y - s[first].y,
 		d: s[first].x - s[second].x,
-		e:
-			s[first].x * s[first].dy -
-			s[second].x * s[second].dy -
-			s[first].y * s[first].dx +
-			s[second].y * s[second].dx
+		e: s[first].x * s[first].dy - s[second].x * s[second].dy - s[first].y * s[first].dx + s[second].y * s[second].dx
 	};
 }
 
@@ -151,11 +145,7 @@ function getCoefficientsXZ(s: Hailstone[], first: number, second: number): Coeff
 		b: s[second].dx - s[first].dx,
 		c: s[second].z - s[first].z,
 		d: s[first].x - s[second].x,
-		e:
-			s[first].x * s[first].dz -
-			s[second].x * s[second].dz -
-			s[first].z * s[first].dx +
-			s[second].z * s[second].dx
+		e: s[first].x * s[first].dz - s[second].x * s[second].dz - s[first].z * s[first].dx + s[second].z * s[second].dx
 	};
 }
 

@@ -1,6 +1,6 @@
-import { readFileSync } from "fs";
+import { readFileSync } from 'fs';
 
-var getAnswer = function(filename) {
+var getAnswer = function (filename) {
 	let data;
 	try {
 		data = readFileSync(filename, 'utf-8');
@@ -8,26 +8,29 @@ var getAnswer = function(filename) {
 		console.error(error);
 		return;
 	}
-	let lines = data.trimEnd().split('\n').map(val => {
-		let line = val.split(' ');
-		if (line[0] === 'addx') line[1] = parseInt(line[1]);
-		return line
-	});
+	let lines = data
+		.trimEnd()
+		.split('\n')
+		.map((val) => {
+			let line = val.split(' ');
+			if (line[0] === 'addx') line[1] = parseInt(line[1]);
+			return line;
+		});
 
-	let set = new Set([20,60,100,140,180,220]);
+	let set = new Set([20, 60, 100, 140, 180, 220]);
 	let sum = 0;
 	let x = 0;
 	let val = 1;
 	let wait = 0;
 	let lineIndex = 0;
-	for (let index = 0; index <= 220; index ++) {
+	for (let index = 0; index <= 220; index++) {
 		// console.log(index, x, sum);
 		if (set.has(index)) {
-			sum += x * (index);
+			sum += x * index;
 			// console.log(index, x, sum, x * (index));
 		}
 		if (wait > 0) {
-			wait --;
+			wait--;
 		} else {
 			x += val;
 			val = 0;
@@ -37,20 +40,20 @@ var getAnswer = function(filename) {
 			} else if (lines[lineIndex][0] === 'addx') {
 				wait = 1;
 				val = lines[lineIndex][1];
-				lineIndex ++;
+				lineIndex++;
 				// continue;
 			} else if (lines[lineIndex][0] === 'noop') {
 				wait = 0;
 				val = 0;
-				lineIndex ++;
+				lineIndex++;
 				// continue;
 			}
 		}
 	}
 	console.log(sum);
-}
+};
 
-var getAnswer2 = function(filename) {
+var getAnswer2 = function (filename) {
 	let data;
 	try {
 		data = readFileSync(filename, 'utf-8');
@@ -58,13 +61,16 @@ var getAnswer2 = function(filename) {
 		console.error(error);
 		return;
 	}
-	let lines = data.trimEnd().split('\n').map(val => {
-		let line = val.split(' ');
-		if (line[0] === 'addx') line[1] = parseInt(line[1]);
-		return line
-	});
+	let lines = data
+		.trimEnd()
+		.split('\n')
+		.map((val) => {
+			let line = val.split(' ');
+			if (line[0] === 'addx') line[1] = parseInt(line[1]);
+			return line;
+		});
 
-	let set = new Set([20,60,100,140,180,220]);
+	let set = new Set([20, 60, 100, 140, 180, 220]);
 	let sum = 0;
 	let x = 0;
 	let val = 1;
@@ -72,13 +78,13 @@ var getAnswer2 = function(filename) {
 	let lineIndex = 0;
 	let screen = '';
 	let pos = 0;
-	for (let index = 0; index <= 240; index ++) {
+	for (let index = 0; index <= 240; index++) {
 		// console.log(index, x, sum);
 		// console.log(x, pos);
 		if (x === pos || x === pos - 1 || x === pos + 1) screen += '#';
 		else screen += '.';
 		if (wait > 0) {
-			wait --;
+			wait--;
 		} else {
 			x += val;
 			val = 0;
@@ -88,12 +94,12 @@ var getAnswer2 = function(filename) {
 			} else if (lines[lineIndex][0] === 'addx') {
 				wait = 1;
 				val = lines[lineIndex][1];
-				lineIndex ++;
+				lineIndex++;
 				// continue;
 			} else if (lines[lineIndex][0] === 'noop') {
 				wait = 0;
 				val = 0;
-				lineIndex ++;
+				lineIndex++;
 				// continue;
 			}
 		}
@@ -103,11 +109,11 @@ var getAnswer2 = function(filename) {
 			// sum += x * (index);
 			// console.log(index, x, sum, x * (index));
 		} else {
-			pos ++;
+			pos++;
 		}
 	}
 	console.log(screen);
-}
+};
 
 // getAnswer('./2022-10.sample.txt');
 // getAnswer('./2022-10.sample-2.txt');

@@ -2,9 +2,7 @@ export default function (input: string) {
 	const lines = input
 		.trim()
 		.split('\n')
-		.map((line) =>
-			line.split(' ').map((part) => part.split(/[.,]/).filter((item) => item.length > 0))
-		);
+		.map((line) => line.split(' ').map((part) => part.split(/[.,]/).filter((item) => item.length > 0)));
 
 	let result = 0;
 	for (const [arrangement, springs] of lines) {

@@ -1,4 +1,4 @@
-import { readFileSync } from "fs";
+import { readFileSync } from 'fs';
 
 const ROCKS = new Uint32Array(5);
 ROCKS[0] = 0b00011110;
@@ -15,11 +15,14 @@ const SAFETY_SIZE = 4 * 1024 * 1024; // the number of rows to leave to be safe, 
 const EMPTY_ROW = 0b10000000;
 const RIGHT_EDGE = 0b00000001_00000001_00000001_00000001;
 
-var getHeight = function(filename, rockCount = 2022, modulus = 0) {
+var getHeight = function (filename, rockCount = 2022, modulus = 0) {
 	let jets;
 	try {
 		// 0 = left, 1 = right
-		jets = readFileSync(filename, 'utf-8').trimEnd().split('').map(c => c === '<' ? 0b0 : 0b1);
+		jets = readFileSync(filename, 'utf-8')
+			.trimEnd()
+			.split('')
+			.map((c) => (c === '<' ? 0b0 : 0b1));
 		// jets = readFileSync(filename, 'utf-8').trimEnd().split('').map(c => c === '<' ? 0b0 : 0b1);
 	} catch (error) {
 		console.error(error);
@@ -38,19 +41,18 @@ var getHeight = function(filename, rockCount = 2022, modulus = 0) {
 	let rockNum;
 	let count = 0;
 	// let print;
-	for (rockNum = 0; rockNum < rockCount;  rockNum ++)  {
+	for (rockNum = 0; rockNum < rockCount; rockNum++) {
 		// if (rockNum % jets.length === 0 && rockNum % 5 === 0) {
 		if (rockNum % modulus === 0) {
 			if (count % 1 === 0 && rockNum > 0) {
 				console.log(rockNum, height + removed);
 				drawGridHorizontal(grid, 20, height - 20);
 			}
-			count ++;
+			count++;
 			// print = true
-		};
+		}
 		// clear some old data to make sure we can keep stacking rocks
 		if (height >= BUFFER_SIZE - SAFETY_SIZE) {
-
 			// if (height < SAFETY_SIZE) console.log('oops');
 			// console.log('test');
 			// console.log('trying to resize1');
@@ -65,8 +67,8 @@ var getHeight = function(filename, rockCount = 2022, modulus = 0) {
 
 		rock = ROCKS[rockNum % ROCKS.length];
 		row = height + 4;
-		while (row > height + 1 || row > 0 && canFall(grid, rock, row)) {
-			row --;
+		while (row > height + 1 || (row > 0 && canFall(grid, rock, row))) {
+			row--;
 			if (!jets[jet] && !overlaps(grid, rock << 1, row)) rock <<= 1;
 			else if (jets[jet] && (rock & RIGHT_EDGE) === 0 && !overlaps(grid, rock >>> 1, row)) rock >>>= 1;
 			jet = (jet + 1) % jets.length;
@@ -74,12 +76,12 @@ var getHeight = function(filename, rockCount = 2022, modulus = 0) {
 		}
 
 		// put the rock in the grid
-		for (offset = 0; offset < 4; offset ++) {
-			grid[row + offset] |= rock >>> offset * 8;
+		for (offset = 0; offset < 4; offset++) {
+			grid[row + offset] |= rock >>> (offset * 8);
 		}
 
 		// adjust our height
-		while (grid[height] > EMPTY_ROW) height ++;
+		while (grid[height] > EMPTY_ROW) height++;
 	}
 
 	// console.log(height);
@@ -90,41 +92,41 @@ var getHeight = function(filename, rockCount = 2022, modulus = 0) {
 	// drawGrid(grid);
 
 	return removed + height;
-}
+};
 
-var canFall = function(grid, rock, row) {
+var canFall = function (grid, rock, row) {
 	// 4 is the number of bytes used to represent a rock (32bit)
-	for (let offset = 0; offset < 4; offset ++) {
-		if (grid[row - 1 + offset] & rock >>> offset * 8) return false;
+	for (let offset = 0; offset < 4; offset++) {
+		if (grid[row - 1 + offset] & (rock >>> (offset * 8))) return false;
 	}
 	return true;
-}
+};
 
-var overlaps = function(grid, rock, row) {
-	for (let offset = 0; offset < 4; offset ++) {
-		if (grid[row + offset] & rock >>> offset * 8) return true;
+var overlaps = function (grid, rock, row) {
+	for (let offset = 0; offset < 4; offset++) {
+		if (grid[row + offset] & (rock >>> (offset * 8))) return true;
 	}
 	return false;
-}
+};
 
-var drawGrid = function(grid, limit = 30, offset = 0) {
-	for (let row = Math.min(grid.length - 1, limit + offset); row >= offset && row >= 0; row --) {
+var drawGrid = function (grid, limit = 30, offset = 0) {
+	for (let row = Math.min(grid.length - 1, limit + offset); row >= offset && row >= 0; row--) {
 		console.log(grid[row].toString(2).replaceAll('0', '.').replaceAll('1', '#'));
 	}
 	console.log('--------');
-}
+};
 
-var drawGridHorizontal = function(grid, limit = 30, offset = 0) {
+var drawGridHorizontal = function (grid, limit = 30, offset = 0) {
 	let lines = new Array(7).fill('');
-	for (let row = Math.min(grid.length - 1, limit + offset);  row >= offset && row >= 0; row --) {
-		for (let col = 0; col < 7; col ++) {
-			if (grid[row] & RIGHT_EDGE << col) lines[col] += '#';
+	for (let row = Math.min(grid.length - 1, limit + offset); row >= offset && row >= 0; row--) {
+		for (let col = 0; col < 7; col++) {
+			if (grid[row] & (RIGHT_EDGE << col)) lines[col] += '#';
 			else lines[col] += '.';
 		}
 	}
 	for (const line of lines) console.log(line);
 	// console.log('--------');
-}
+};
 
 // var startTime = performance.now();
 
@@ -153,7 +155,7 @@ let second = getHeight(filename, 2 * mod + (MAX % mod));
 let count = Math.trunc(MAX / mod);
 // let third = getHeight(filename, 3 * mod);
 // console.log(first, second, Math.trunc(MAX / mod));
-console.log(first + ((second - first) * (count - 1)));
+console.log(first + (second - first) * (count - 1));
 
 // console.log('part 1:', getHeight('./2022-17.sample.txt', 100_000_000), '(sample)');
 //        10_000_000: 685ms

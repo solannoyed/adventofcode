@@ -7,7 +7,7 @@ export default function (input: string) {
 	});
 
 	if (!map.has('AAA')) return -1; // sample 3 is not compatible with part 1
-	
+
 	const location = { node: 'AAA', instruction: 0 };
 	while (location.node != 'ZZZ') {
 		const current = map.get(location.node)!;

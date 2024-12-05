@@ -14,11 +14,7 @@ export default function (input: string) {
 				upper = -1;
 			}
 			for (let index = 0; index < record.length - 1; index++) {
-				if (
-					record[index] + lower > record[index + 1] ||
-					record[index] + upper < record[index + 1]
-				)
-					return;
+				if (record[index] + lower > record[index + 1] || record[index] + upper < record[index + 1]) return;
 			}
 			count++;
 		});

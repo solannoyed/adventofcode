@@ -1,15 +1,15 @@
-import { readFileSync } from "fs";
+import { readFileSync } from 'fs';
 
-var getCharValue = function(char) {
+var getCharValue = function (char) {
 	// char codes:   a: 97, z: 122, A: 65, Z: 90
 	let charCode = char.charCodeAt(0);
 	if (charCode >= 97 && charCode <= 122) return charCode - 96;
 	else if (charCode >= 65 && charCode <= 90) return charCode - 38;
-	console.log("invalid char", char);
+	console.log('invalid char', char);
 	return -1;
-}
+};
 
-var getPrioritySum = function(filename) {
+var getPrioritySum = function (filename) {
 	let data;
 	try {
 		data = readFileSync(filename, 'utf-8').trimEnd();
@@ -17,7 +17,7 @@ var getPrioritySum = function(filename) {
 		console.error(error);
 		return;
 	}
-	let rucksacks = data.split('\n').map(line => [line.substring(0, (line.length / 2)), line.substring(line.length / 2)]);
+	let rucksacks = data.split('\n').map((line) => [line.substring(0, line.length / 2), line.substring(line.length / 2)]);
 
 	let prioritySum = 0;
 	for (const rucksack of rucksacks) {
@@ -28,11 +28,11 @@ var getPrioritySum = function(filename) {
 		}
 	}
 	console.log(prioritySum);
-}
+};
 // getPrioritySum('./2022-03-rucksack-reorganization.sample.txt');
 // getPrioritySum('./2022-03-rucksack-reorganization.txt');
 
-var getPrioritySum2 = function(filename) {
+var getPrioritySum2 = function (filename) {
 	let data;
 	try {
 		data = readFileSync(filename, 'utf-8').trimEnd();
@@ -40,7 +40,7 @@ var getPrioritySum2 = function(filename) {
 		console.error(error);
 		return;
 	}
-	let rucksacks = data.split('\n').map(line => new Set([...line]));
+	let rucksacks = data.split('\n').map((line) => new Set([...line]));
 
 	let prioritySum = 0;
 	for (let index = 0; index < rucksacks.length - 2; index += 3) {
@@ -50,6 +50,6 @@ var getPrioritySum2 = function(filename) {
 		}
 	}
 	console.log(prioritySum);
-}
+};
 // getPrioritySum2('./2022-03-rucksack-reorganization.sample.txt');
 getPrioritySum2('./2022-03-rucksack-reorganization.txt');

@@ -10,9 +10,8 @@ export default function (input: string) {
 		location.row += DIRECTIONS[location.direction].y;
 		location.col += DIRECTIONS[location.direction].x;
 		location.direction =
-			DIRECTIONS[location.direction].options.find(
-				(option) => option.pipe == grid[location.row][location.col]
-			)?.direction ?? -1;
+			DIRECTIONS[location.direction].options.find((option) => option.pipe == grid[location.row][location.col])
+				?.direction ?? -1;
 		count++;
 	}
 	return count / 2;
@@ -32,8 +31,7 @@ export function firstAdjacentPipe(grid: string[][], start: { row: number; col: n
 	for (const direction of DIRECTIONS) {
 		const location = { row: start.row + direction.y, col: start.col + direction.x, direction: -1 };
 		location.direction =
-			direction.options.find((option) => option.pipe == grid[location.row][location.col])
-				?.direction ?? -1;
+			direction.options.find((option) => option.pipe == grid[location.row][location.col])?.direction ?? -1;
 		if (location.direction >= 0) return location;
 	}
 }

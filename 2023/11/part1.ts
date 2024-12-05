@@ -40,9 +40,7 @@ export default function (input: string, rate = 2) {
 	let sum = 0;
 	for (let first = 0; first < galaxies.length - 1; first++) {
 		for (let second = first + 1; second < galaxies.length; second++) {
-			sum +=
-				Math.abs(galaxies[first].y - galaxies[second].y) +
-				Math.abs(galaxies[first].x - galaxies[second].x);
+			sum += Math.abs(galaxies[first].y - galaxies[second].y) + Math.abs(galaxies[first].x - galaxies[second].x);
 		}
 	}
 	return sum;

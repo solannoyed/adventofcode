@@ -15,18 +15,15 @@ export default function (input: string) {
 	directions[start.row][start.col] = location.row - start.row;
 
 	while (grid[location.row][location.col] != 'S') {
-		if (Number.isNaN(directions[location.row][location.col]))
-			directions[location.row][location.col] = 0;
+		if (Number.isNaN(directions[location.row][location.col])) directions[location.row][location.col] = 0;
 		directions[location.row][location.col] += DIRECTIONS[location.direction].y;
 		location.row += DIRECTIONS[location.direction].y;
 		location.col += DIRECTIONS[location.direction].x;
-		if (Number.isNaN(directions[location.row][location.col]))
-			directions[location.row][location.col] = 0;
+		if (Number.isNaN(directions[location.row][location.col])) directions[location.row][location.col] = 0;
 		directions[location.row][location.col] += DIRECTIONS[location.direction].y;
 		location.direction =
-			DIRECTIONS[location.direction].options.find(
-				(option) => option.pipe == grid[location.row][location.col]
-			)?.direction ?? -1;
+			DIRECTIONS[location.direction].options.find((option) => option.pipe == grid[location.row][location.col])
+				?.direction ?? -1;
 	}
 
 	let count = 0;

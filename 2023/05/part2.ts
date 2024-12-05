@@ -46,10 +46,7 @@ function mappedRanges(ranges: Range[], mappings: Mapping[]) {
 				destinations.push(destination);
 
 				range.length = mapping.source - range.start;
-			} else if (
-				range.start < mapping.source &&
-				range.start + range.length > mapping.source + mapping.length
-			) {
+			} else if (range.start < mapping.source && range.start + range.length > mapping.source + mapping.length) {
 				// range is completely overlapping the mapping
 				const destination: Range = {
 					start: mapping.destination,

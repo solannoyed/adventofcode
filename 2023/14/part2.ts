@@ -19,9 +19,7 @@ export default function (input: string) {
 	do {
 		tiltCycle(grid);
 		sequence.push([getLoad(grid), getHash(grid)]);
-		index = sequence.findIndex(
-			([first, second]) => first == sequence.at(-1)![0] && second == sequence.at(-1)![1]
-		);
+		index = sequence.findIndex(([first, second]) => first == sequence.at(-1)![0] && second == sequence.at(-1)![1]);
 	} while (index == sequence.length - 1);
 	const initial = index + 1;
 	const loop = sequence.length - index - 1;

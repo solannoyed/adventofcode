@@ -26,10 +26,8 @@ export default function (input: string) {
 	for (let falling = 0; falling < bricks.length; falling++) {
 		let z = 0;
 		for (let landed = falling - 1; landed >= 0; landed--) {
-			if (bricks[falling][1].x < bricks[landed][0].x || bricks[falling][0].x > bricks[landed][1].x)
-				continue;
-			if (bricks[falling][1].y < bricks[landed][0].y || bricks[falling][0].y > bricks[landed][1].y)
-				continue;
+			if (bricks[falling][1].x < bricks[landed][0].x || bricks[falling][0].x > bricks[landed][1].x) continue;
+			if (bricks[falling][1].y < bricks[landed][0].y || bricks[falling][0].y > bricks[landed][1].y) continue;
 			// they overlap on both x and y, so the falling brick lands on top
 			if (z > 0) {
 				if (z > bricks[landed][1].z) continue; // we are being supported up higher (might be able to break here depending on brick layout)

@@ -1,6 +1,6 @@
-import { readFileSync } from "fs";
+import { readFileSync } from 'fs';
 
-var getAnswer = function(filename) {
+var getAnswer = function (filename) {
 	let data;
 	try {
 		data = readFileSync(filename, 'utf-8');
@@ -9,39 +9,42 @@ var getAnswer = function(filename) {
 		return;
 	}
 	let map = new Map();
-	data.trimEnd().split('\n').forEach((line) => {
-		let parts = line.split(': ');
-		let obj = {};
-		// obj.id = parts[0];
-		if (parts[1].includes('+')) {
-			obj.operation = ' + ';
-		} else if (parts[1].includes('*')) {
-			obj.operation = ' * ';
-		} else if (parts[1].includes('/')) {
-			obj.operation = ' / ';
-		} else if (parts[1].includes('-')) {
-			obj.operation = ' - ';
-		} else {
-			obj.value = parseInt(parts[1]);
-		}
-		if (obj.operation) {
-			[obj.first, obj.second] = parts[1].split(obj.operation);
-			obj.operation = obj.operation.trim();
-		}
-		map.set(parts[0], obj);
-	});
+	data
+		.trimEnd()
+		.split('\n')
+		.forEach((line) => {
+			let parts = line.split(': ');
+			let obj = {};
+			// obj.id = parts[0];
+			if (parts[1].includes('+')) {
+				obj.operation = ' + ';
+			} else if (parts[1].includes('*')) {
+				obj.operation = ' * ';
+			} else if (parts[1].includes('/')) {
+				obj.operation = ' / ';
+			} else if (parts[1].includes('-')) {
+				obj.operation = ' - ';
+			} else {
+				obj.value = parseInt(parts[1]);
+			}
+			if (obj.operation) {
+				[obj.first, obj.second] = parts[1].split(obj.operation);
+				obj.operation = obj.operation.trim();
+			}
+			map.set(parts[0], obj);
+		});
 	return getValue(map, 'root');
-}
+};
 
-var getValue = function(map, key) {
-	if (typeof key === "number") return key;
+var getValue = function (map, key) {
+	if (typeof key === 'number') return key;
 	if (!map.has(key)) return key;
 	let obj = map.get(key);
 	if (obj.value !== undefined) return obj.value;
 	else {
 		obj.first = getValue(map, obj.first);
 		obj.second = getValue(map, obj.second);
-		if (typeof obj.first ===  "string" || typeof obj.second === "string") return key;
+		if (typeof obj.first === 'string' || typeof obj.second === 'string') return key;
 		switch (obj.operation) {
 			case '+':
 				obj.value = obj.first + obj.second;
@@ -65,7 +68,7 @@ var getValue = function(map, key) {
 		delete obj.second;
 	}
 	return obj.value;
-}
+};
 
 // c = b - a
 // a = b - c
@@ -83,7 +86,7 @@ var getValue = function(map, key) {
 // a = b * c
 // b = a / c
 
-var getAnswer2 = function(filename) {
+var getAnswer2 = function (filename) {
 	let data;
 	try {
 		data = readFileSync(filename, 'utf-8');
@@ -93,27 +96,30 @@ var getAnswer2 = function(filename) {
 	}
 	let map = new Map();
 	// map.set('root', { id: 'root', value: 0 });
-	data.trimEnd().split('\n').forEach((line) => {
-		let parts = line.split(' ');
-		let obj = {};
-		obj.id = parts[0].substring(0, 4);
-		if (obj.id === 'humn') return;
-		// else if (obj.id === 'root') return;//obj.id = 'humn';
+	data
+		.trimEnd()
+		.split('\n')
+		.forEach((line) => {
+			let parts = line.split(' ');
+			let obj = {};
+			obj.id = parts[0].substring(0, 4);
+			if (obj.id === 'humn') return;
+			// else if (obj.id === 'root') return;//obj.id = 'humn';
 
-		if (parts.length === 2) obj.value = parseInt(parts[1]);
-		else {
-			obj.first = parts[1];
-			obj.operation = parts[2];
-			obj.second = parts[3];
-			// if (obj.operation === '+') obj.operation = '-';
-			// else if (obj.operation === '*') obj.operation = '/';
-			// else if (obj.operation === '-') obj.operation = '+';
-			// else if (obj.operation === '/') obj.operation = '*';
+			if (parts.length === 2) obj.value = parseInt(parts[1]);
+			else {
+				obj.first = parts[1];
+				obj.operation = parts[2];
+				obj.second = parts[3];
+				// if (obj.operation === '+') obj.operation = '-';
+				// else if (obj.operation === '*') obj.operation = '/';
+				// else if (obj.operation === '-') obj.operation = '+';
+				// else if (obj.operation === '/') obj.operation = '*';
 
-			// if (obj.id !== 'humn') [obj.id, obj.first] = [obj.first, obj.id];
-		}
-		map.set(obj.id, obj);
-	});
+				// if (obj.id !== 'humn') [obj.id, obj.first] = [obj.first, obj.id];
+			}
+			map.set(obj.id, obj);
+		});
 	// console.log(map);
 	getValue(map, 'root');
 
@@ -125,9 +131,12 @@ var getAnswer2 = function(filename) {
 				continue;
 			}
 			let tmp = { id: obj.first, first: obj.id, second: obj.second };
-			if (obj.operation === '+') tmp.operation = '-'; // a = b + c | b = a - c
-			else if (obj.operation === '*') tmp.operation = '/'; // a = b * c | b = a / c
-			else if (obj.operation === '-') tmp.operation = '+'; // a = b - c | b = a + c
+			if (obj.operation === '+')
+				tmp.operation = '-'; // a = b + c | b = a - c
+			else if (obj.operation === '*')
+				tmp.operation = '/'; // a = b * c | b = a / c
+			else if (obj.operation === '-')
+				tmp.operation = '+'; // a = b - c | b = a + c
 			else if (obj.operation === '/') tmp.operation = '*'; // a = b / c | b = a * c
 			adjusted.set(tmp.id, tmp);
 		} else if (typeof obj.first === 'number' && typeof obj.second === 'string') {
@@ -136,22 +145,24 @@ var getAnswer2 = function(filename) {
 				continue;
 			}
 			let tmp = { id: obj.second, first: obj.first, operation: obj.operation, second: obj.id };
-			if (obj.operation === '+') tmp.operation = '-'; // a = b + c | c = a - b
-			else if (obj.operation === '*') tmp.operation = '/'; // a = b * c | c = a / b
-			else if (obj.operation === '-') [tmp.first, tmp.second] = [tmp.second, tmp.first];//tmp.operation = '-'; // a = b - c | c = b - a
+			if (obj.operation === '+')
+				tmp.operation = '-'; // a = b + c | c = a - b
+			else if (obj.operation === '*')
+				tmp.operation = '/'; // a = b * c | c = a / b
+			else if (obj.operation === '-') [tmp.first, tmp.second] = [tmp.second, tmp.first]; //tmp.operation = '-'; // a = b - c | c = b - a
 			// else if (obj.operation === '/') tmp.operation = '/'; // a = b / c | c = b / a
-			[tmp.first, tmp.second] = [tmp.second, tmp.first]
+			[tmp.first, tmp.second] = [tmp.second, tmp.first];
 			adjusted.set(tmp.id, tmp);
 		}
 	}
 	// console.log(adjusted);
 	return getValue(adjusted, 'humn');
 
-
 	// console.log(map);
 	// getValue(map, 'root');
 	console.log(map);
-	console.log(adjusted);return;
+	console.log(adjusted);
+	return;
 
 	let changed = true;
 	while (changed) {
@@ -166,7 +177,7 @@ var getAnswer2 = function(filename) {
 		}
 	}
 	console.log(map);
-}
+};
 
 // console.log('part 1:', getAnswer('./2022-21.sample.txt'), '(sample)');
 // console.log('part 1:', getAnswer('./2022-21.txt'));

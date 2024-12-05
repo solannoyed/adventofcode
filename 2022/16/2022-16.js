@@ -1,6 +1,6 @@
-import { readFileSync } from "fs";
+import { readFileSync } from 'fs';
 
-var getAnswer = function(filename) {
+var getAnswer = function (filename) {
 	let data;
 	try {
 		data = readFileSync(filename, 'utf-8');
@@ -10,22 +10,28 @@ var getAnswer = function(filename) {
 	}
 	let rates = new Map();
 	let paths = new Map();
-	data.trimEnd().split('\n').forEach((line) => {
-		let valve = line.substring(6, 8);
-		let rateIndex = line.indexOf('=');
-		let delimIndex = line.indexOf(';'); // 24 more
-		let rate = parseInt(line.substring(rateIndex + 1, delimIndex));
-		let tunnels = line.substring(delimIndex + 24).trimStart().split(', ');
+	data
+		.trimEnd()
+		.split('\n')
+		.forEach((line) => {
+			let valve = line.substring(6, 8);
+			let rateIndex = line.indexOf('=');
+			let delimIndex = line.indexOf(';'); // 24 more
+			let rate = parseInt(line.substring(rateIndex + 1, delimIndex));
+			let tunnels = line
+				.substring(delimIndex + 24)
+				.trimStart()
+				.split(', ');
 
-		let path = new Map();
-		for (const tunnel of tunnels) {
-			path.set(tunnel, 1);
-		}
-		path.set(valve, 0);
+			let path = new Map();
+			for (const tunnel of tunnels) {
+				path.set(tunnel, 1);
+			}
+			path.set(valve, 0);
 
-		rates.set(valve, rate);
-		paths.set(valve, path);
-	});
+			rates.set(valve, rate);
+			paths.set(valve, path);
+		});
 	// console.log(rates);return;
 
 	let updated = true;
@@ -100,7 +106,6 @@ var getAnswer = function(filename) {
 	// console.log(maxPath);
 	return maxPressure;
 
-
 	// get the 'distance' (time cost) from/to each valve
 	// ignore valves that have 0 rate (we only wanted them to determine distance)
 	// calculate the best order with DP to maximize released pressure
@@ -111,9 +116,9 @@ var getAnswer = function(filename) {
 	// }
 
 	return paths;
-}
+};
 
-var getAnswer2 = function(filename) {
+var getAnswer2 = function (filename) {
 	let data;
 	try {
 		data = readFileSync(filename, 'utf-8');
@@ -123,22 +128,28 @@ var getAnswer2 = function(filename) {
 	}
 	let rates = new Map();
 	let paths = new Map();
-	data.trimEnd().split('\n').forEach((line) => {
-		let valve = line.substring(6, 8);
-		let rateIndex = line.indexOf('=');
-		let delimIndex = line.indexOf(';'); // 24 more
-		let rate = parseInt(line.substring(rateIndex + 1, delimIndex));
-		let tunnels = line.substring(delimIndex + 24).trimStart().split(', ');
+	data
+		.trimEnd()
+		.split('\n')
+		.forEach((line) => {
+			let valve = line.substring(6, 8);
+			let rateIndex = line.indexOf('=');
+			let delimIndex = line.indexOf(';'); // 24 more
+			let rate = parseInt(line.substring(rateIndex + 1, delimIndex));
+			let tunnels = line
+				.substring(delimIndex + 24)
+				.trimStart()
+				.split(', ');
 
-		let path = new Map();
-		for (const tunnel of tunnels) {
-			path.set(tunnel, 1);
-		}
-		path.set(valve, 0);
+			let path = new Map();
+			for (const tunnel of tunnels) {
+				path.set(tunnel, 1);
+			}
+			path.set(valve, 0);
 
-		rates.set(valve, rate);
-		paths.set(valve, path);
-	});
+			rates.set(valve, rate);
+			paths.set(valve, path);
+		});
 
 	let updated = true;
 	while (updated) {
@@ -182,12 +193,12 @@ var getAnswer2 = function(filename) {
 	destinations = [...destinations];
 
 	let dp = [];
-	for (let index1 = 0; index1 < destinations.length; index1 ++) {
+	for (let index1 = 0; index1 < destinations.length; index1++) {
 		let destination1 = destinations[index1];
-	// for (const destination1 of destinations) {
-		for (let index2 = index1 + 1; index2 < destinations.length; index2 ++) {
+		// for (const destination1 of destinations) {
+		for (let index2 = index1 + 1; index2 < destinations.length; index2++) {
 			let destination2 = destinations[index2];
-		// for (const destination2 of destinations) {
+			// for (const destination2 of destinations) {
 			// if (destination1 === destination2) continue;
 
 			let obj = {};
@@ -215,37 +226,37 @@ var getAnswer2 = function(filename) {
 			// continue;
 		}
 		// if (cur.time1 > cur.time2) {
-			for (const destination1 of cur.destinations) {
-				let time1 = cur.time1;
-				let distance1 = paths.get(cur.path1[cur.path1.length - 1]).get(destination1);
-				if (time1 - distance1 <= 1) continue;
+		for (const destination1 of cur.destinations) {
+			let time1 = cur.time1;
+			let distance1 = paths.get(cur.path1[cur.path1.length - 1]).get(destination1);
+			if (time1 - distance1 <= 1) continue;
 
-				let obj = {};
-				obj.time1 = time1 - distance1 - 1;
-				obj.time2 = cur.time2;
-				obj.destinations = new Set([...cur.destinations]);
-				obj.destinations.delete(destination1);
-				obj.path1 = [...cur.path1, destination1];
-				obj.path2 = [...cur.path2];
-				obj.pressure = cur.pressure + obj.time1 * rates.get(destination1);
-				dp.push(obj);
-			}
+			let obj = {};
+			obj.time1 = time1 - distance1 - 1;
+			obj.time2 = cur.time2;
+			obj.destinations = new Set([...cur.destinations]);
+			obj.destinations.delete(destination1);
+			obj.path1 = [...cur.path1, destination1];
+			obj.path2 = [...cur.path2];
+			obj.pressure = cur.pressure + obj.time1 * rates.get(destination1);
+			dp.push(obj);
+		}
 		// } else /*if (cur.time2 > cur.time1)*/ {
-			for (const destination2 of cur.destinations) {
-				let time2 = cur.time2;
-				let distance2 = paths.get(cur.path2[cur.path2.length - 1]).get(destination2);
-				if (time2 - distance2 <= 1) continue;
+		for (const destination2 of cur.destinations) {
+			let time2 = cur.time2;
+			let distance2 = paths.get(cur.path2[cur.path2.length - 1]).get(destination2);
+			if (time2 - distance2 <= 1) continue;
 
-				let obj = {};
-				obj.time1 = cur.time1;
-				obj.time2 = time2 - distance2 - 1;
-				obj.destinations = new Set([...cur.destinations]);
-				obj.destinations.delete(destination2);
-				obj.path1 = [...cur.path1];
-				obj.path2 = [...cur.path2, destination2];
-				obj.pressure = cur.pressure + obj.time2 * rates.get(destination2);
-				dp.push(obj);
-			}
+			let obj = {};
+			obj.time1 = cur.time1;
+			obj.time2 = time2 - distance2 - 1;
+			obj.destinations = new Set([...cur.destinations]);
+			obj.destinations.delete(destination2);
+			obj.path1 = [...cur.path1];
+			obj.path2 = [...cur.path2, destination2];
+			obj.pressure = cur.pressure + obj.time2 * rates.get(destination2);
+			dp.push(obj);
+		}
 		// }
 		/* else {
 			let curDestinations = [...cur.destinations];
@@ -281,7 +292,7 @@ var getAnswer2 = function(filename) {
 
 	console.log(maxObj);
 	return maxPressure;
-}
+};
 
 // console.log('part 1:', getAnswer('./2022-16.sample.txt'), '(sample)'); // 1651
 // console.log('part 1:', getAnswer('./2022-16.txt')); // 2181

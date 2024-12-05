@@ -1,6 +1,6 @@
-import { readFileSync } from "fs";
+import { readFileSync } from 'fs';
 
-var getAnswer = function(filename, row) {
+var getAnswer = function (filename, row) {
 	let data;
 	try {
 		data = readFileSync(filename, 'utf-8');
@@ -8,17 +8,20 @@ var getAnswer = function(filename, row) {
 		console.error(error);
 		return;
 	}
-	let lines = data.trimEnd().split('\n').map((line) => {
-		line = line.substring(12);
-		line = line.split(': closest beacon is at x=');
-		line = line.map(val => val.split(', y=').map(num=>parseInt(num)));
-		return line;
-	});
+	let lines = data
+		.trimEnd()
+		.split('\n')
+		.map((line) => {
+			line = line.substring(12);
+			line = line.split(': closest beacon is at x=');
+			line = line.map((val) => val.split(', y=').map((num) => parseInt(num)));
+			return line;
+		});
 	// console.log(lines);
 
 	let set = new Set();
 
-	for (let index = 0; index < lines.length; index ++) {
+	for (let index = 0; index < lines.length; index++) {
 		let sensor = lines[index][0];
 		let beacon = lines[index][1];
 
@@ -27,23 +30,23 @@ var getAnswer = function(filename, row) {
 		let xDistance = distance - Math.abs(sensor[1] - row);
 		if (xDistance < 0) continue;
 
-		for (let x = sensor[0] - xDistance; x <= sensor[0] + xDistance; x ++) set.add(x);
+		for (let x = sensor[0] - xDistance; x <= sensor[0] + xDistance; x++) set.add(x);
 	}
 	// console.log(set);
 
 	return set.size - 1;
-}
+};
 
-var getDistance = function(point1, point2) {
+var getDistance = function (point1, point2) {
 	return Math.abs(point1[0] - point2[0]) + Math.abs(point1[1] - point2[1]);
-}
+};
 
-var printGrid = function(grid) {
+var printGrid = function (grid) {
 	for (const row of grid) {
 		console.log(row.join(''));
 	}
-}
-var getAnswer2 = function(filename, limit) {
+};
+var getAnswer2 = function (filename, limit) {
 	let data;
 	try {
 		data = readFileSync(filename, 'utf-8');
@@ -51,21 +54,25 @@ var getAnswer2 = function(filename, limit) {
 		console.error(error);
 		return;
 	}
-	let lines = data.trimEnd().split('\n').map((line) => {
-		line = line.substring(12);
-		line = line.split(': closest beacon is at x=');
-		line = line.map(val => val.split(', y=').map(num=>parseInt(num)));
-		return line;
-	}).map(val => {
-		let sensor = val[0];
-		let beacon = val[1];
-		let distance = Math.abs(sensor[0] - beacon[0]) + Math.abs(sensor[1] - beacon[1]);
-		return [sensor, beacon, distance];
-	});
+	let lines = data
+		.trimEnd()
+		.split('\n')
+		.map((line) => {
+			line = line.substring(12);
+			line = line.split(': closest beacon is at x=');
+			line = line.map((val) => val.split(', y=').map((num) => parseInt(num)));
+			return line;
+		})
+		.map((val) => {
+			let sensor = val[0];
+			let beacon = val[1];
+			let distance = Math.abs(sensor[0] - beacon[0]) + Math.abs(sensor[1] - beacon[1]);
+			return [sensor, beacon, distance];
+		});
 
-	for (let row = 0; row <= limit; row ++) {
+	for (let row = 0; row <= limit; row++) {
 		if (row % 100000 === 0) console.log('checking row', row);
-		for (let col = 0; col <= limit; col ++) {
+		for (let col = 0; col <= limit; col++) {
 			let close = false;
 			for (const line of lines) {
 				let sensor = line[0];
@@ -94,7 +101,7 @@ var getAnswer2 = function(filename, limit) {
 			}
 			if (!close) {
 				console.log(col, row);
-				return (col * 4000000) + row;
+				return col * 4000000 + row;
 			}
 		}
 	}
@@ -170,7 +177,7 @@ var getAnswer2 = function(filename, limit) {
 	// // console.log(set);
 
 	// return points;
-}
+};
 
 // console.log('part 1:', getAnswer('./2022-15.sample.txt', 10), '(sample)');
 // console.log('part 1:', getAnswer('./2022-15.txt', 2000000));

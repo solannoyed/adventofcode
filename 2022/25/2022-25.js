@@ -1,6 +1,6 @@
-import { readFileSync } from "fs";
+import { readFileSync } from 'fs';
 
-var getAnswer = function(filename) {
+var getAnswer = function (filename) {
 	let data;
 	try {
 		data = readFileSync(filename, 'utf-8');
@@ -8,9 +8,12 @@ var getAnswer = function(filename) {
 		console.error(error);
 		return;
 	}
-	let lines = data.trimEnd().split('\n').map((line) => {
-		return line.split('');
-	});
+	let lines = data
+		.trimEnd()
+		.split('\n')
+		.map((line) => {
+			return line.split('');
+		});
 
 	let sum = 0;
 	for (const line of lines) {
@@ -48,9 +51,9 @@ var getAnswer = function(filename) {
 		sum /= 5;
 	}
 	return snafu.join('');
-}
+};
 
-var getAnswer2 = function(filename) {
+var getAnswer2 = function (filename) {
 	let data;
 	try {
 		data = readFileSync(filename, 'utf-8');
@@ -58,18 +61,21 @@ var getAnswer2 = function(filename) {
 		console.error(error);
 		return;
 	}
-	let lines = data.trimEnd().split('\n').map((line) => {
-		return line;
-	});
+	let lines = data
+		.trimEnd()
+		.split('\n')
+		.map((line) => {
+			return line;
+		});
 
 	let result = 0;
 
-	for (let index = 0; index < lines.length; index ++) {
+	for (let index = 0; index < lines.length; index++) {
 		let line = lines[index];
 	}
 
 	return result;
-}
+};
 
 console.log('part 1:', getAnswer('./2022-25.sample.txt'), '(sample)');
 console.log('part 1:', getAnswer('./2022-25.txt'));
