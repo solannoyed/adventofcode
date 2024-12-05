@@ -5,6 +5,10 @@
 	"homepage": "https://adventofcode.com",
 	"repository": "github:solannoyed/adventofcode",
 	"type": "module",
+	"scripts": {
+		"lint": "eslint . && prettier --check .",
+		"format": "prettier --write ."
+	},
 	"devDependencies": {
 		"@eslint/js": "^9.16.0",
 		"@tsconfig/bun": "^1.0.7",
