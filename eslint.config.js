@@ -9,7 +9,7 @@ export default ts.config(
 	prettier,
 	{
 		rules: {
-			// for-of is slower and we (usually) need to focus on performance
+			// for-of is slower and we (often, for AoC) need to focus on performance
 			'@typescript-eslint/prefer-for-of': 'off'
 		}
 	}
